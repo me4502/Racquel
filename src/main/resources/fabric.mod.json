@@ -1,0 +1,33 @@
+{
+  "schemaVersion": 1,
+  "id": "racquel",
+  "version": "${version}",
+
+  "name": "Racquel",
+  "description": "Minecraft cheats created to facilitiate training of AntiCheat models.",
+  "authors": [
+    "Me4502"
+  ],
+  "contact": {
+    "homepage": "https://matthewmiller.dev/",
+    "sources": "https://github.com/Me4502/Racquel"
+  },
+
+  "license": "MIT",
+  "icon": "assets/modid/icon.png",
+
+  "environment": "client",
+  "entrypoints": {
+    "main": [
+      "com.me4502.racquel.Racquel"
+    ]
+  },
+  "mixins": [
+    "racquel.mixins.json"
+  ],
+
+  "depends": {
+    "fabricloader": ">=0.4.0",
+    "fabric": "*"
+  }
+}
