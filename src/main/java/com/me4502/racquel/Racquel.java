@@ -30,6 +30,8 @@ import com.me4502.racquel.event.render.PostGuiRenderCallback;
 import com.me4502.racquel.plugin.Plugin;
 import com.me4502.racquel.plugin.move.AirJump;
 import com.me4502.racquel.plugin.move.FastMoving;
+import com.me4502.racquel.plugin.move.NoFall;
+import com.me4502.racquel.plugin.move.WallClimb;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.event.client.ClientTickCallback;
 import net.minecraft.client.MinecraftClient;
@@ -60,6 +62,8 @@ public class Racquel implements ModInitializer {
 	public void registerPlugins() {
 		plugins.add(new FastMoving());
 		plugins.add(new AirJump());
+		plugins.add(new NoFall());
+		plugins.add(new WallClimb());
 	}
 
 	public void onTick(MinecraftClient client) {
