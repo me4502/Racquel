@@ -1,0 +1,13 @@
+{
+  "required": true,
+  "package": "com.me4502.racquel.mixin",
+  "compatibilityLevel": "JAVA_8",
+  "mixins": [
+  ],
+  "client": [
+    "ExampleMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}
