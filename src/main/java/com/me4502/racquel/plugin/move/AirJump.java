@@ -22,18 +22,32 @@
  * SOFTWARE.
  */
 
-package com.me4502.racquel.mixin;
+package com.me4502.racquel.plugin.move;
 
+import com.me4502.racquel.plugin.Plugin;
+import net.fabricmc.fabric.api.event.client.ClientTickCallback;
 import net.minecraft.client.MinecraftClient;
-import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.injection.At;
-import org.spongepowered.asm.mixin.injection.Inject;
-import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+import org.lwjgl.glfw.GLFW;
 
-@Mixin(MinecraftClient.class)
-public class ExampleMixin {
-	@Inject(at = @At("HEAD"), method = "init()V")
-	private void init(CallbackInfo info) {
-		System.out.println("This line is printed by an example mod mixin!");
-	}
+public class AirJump extends Plugin {
+
+    @Override
+    public void init() {
+        super.init();
+
+        ClientTickCallback.EVENT.register(this::onTick);
+    }
+
+    public void onTick(MinecraftClient client) {
+        if (!isEnabled()) {
+            return;
+        }
+
+        getPlayer().onGround = true;
+    }
+
+    @Override
+    public int getKeyCode() {
+        return GLFW.GLFW_KEY_J;
+    }
 }

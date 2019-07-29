@@ -1,14 +1,67 @@
-package net.fabricmc.example;
+/*
+ * MIT License
+ *
+ * Copyright (c) 2019 Matthew Miller
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in all
+ * copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
+ */
 
+package com.me4502.racquel;
+
+import com.me4502.racquel.plugin.Plugin;
+import com.me4502.racquel.plugin.move.AirJump;
+import com.me4502.racquel.plugin.move.FastMoving;
 import net.fabricmc.api.ModInitializer;
+import net.fabricmc.fabric.api.event.client.ClientTickCallback;
+import net.minecraft.client.MinecraftClient;
 
-public class ExampleMod implements ModInitializer {
+import java.util.ArrayList;
+import java.util.List;
+
+public class Racquel implements ModInitializer {
+
+	public static final String IDENTIFIER_ID = "racquel";
+	public static final String KEYBINDING_CATEGORY = "Racquel";
+
+	private List<Plugin> plugins = new ArrayList<>();
+
 	@Override
 	public void onInitialize() {
-		// This code runs as soon as Minecraft is in a mod-load-ready state.
-		// However, some things (like resources) may still be uninitialized.
-		// Proceed with mild caution.
+		System.out.println("Registering plugins");
+		registerPlugins();
 
-		System.out.println("Hello Fabric world!");
+		System.out.println("Initialising core-events");
+		ClientTickCallback.EVENT.register(this::onTick);
+
+		plugins.forEach(Plugin::init);
+	}
+
+	public void registerPlugins() {
+		plugins.add(new FastMoving());
+		plugins.add(new AirJump());
+	}
+
+	public void onTick(MinecraftClient client) {
+		// Handle Keybind changes.
+		plugins.stream()
+				.filter(plugin -> plugin.getKeybind().isPresent())
+				.filter(plugin -> plugin.getKeybind().get().isPressed())
+				.forEach(Plugin::toggle);
 	}
 }
