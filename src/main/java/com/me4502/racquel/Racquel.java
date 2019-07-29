@@ -24,12 +24,16 @@
 
 package com.me4502.racquel;
 
+import static com.me4502.racquel.util.RenderUtils.rgbToInt;
+
+import com.me4502.racquel.event.render.PostGuiRenderCallback;
 import com.me4502.racquel.plugin.Plugin;
 import com.me4502.racquel.plugin.move.AirJump;
 import com.me4502.racquel.plugin.move.FastMoving;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.event.client.ClientTickCallback;
 import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.gui.hud.InGameHud;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -48,6 +52,7 @@ public class Racquel implements ModInitializer {
 
 		System.out.println("Initialising core-events");
 		ClientTickCallback.EVENT.register(this::onTick);
+		PostGuiRenderCallback.EVENT.register(this::onPostRender);
 
 		plugins.forEach(Plugin::init);
 	}
@@ -63,5 +68,20 @@ public class Racquel implements ModInitializer {
 				.filter(plugin -> plugin.getKeybind().isPresent())
 				.filter(plugin -> plugin.getKeybind().get().isPressed())
 				.forEach(Plugin::toggle);
+	}
+
+	public void onPostRender(InGameHud inGameHud) {
+		int renderIndex = 0;
+		for (Plugin plugin : plugins) {
+			if (plugin.isEnabled()) {
+				inGameHud.drawString(
+						MinecraftClient.getInstance().textRenderer,
+						plugin.getName(),
+						10,
+						(renderIndex++ * 10) + 10,
+						rgbToInt(0, 255, 0)
+				);
+			}
+		}
 	}
 }

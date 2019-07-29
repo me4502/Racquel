@@ -22,18 +22,11 @@
  * SOFTWARE.
  */
 
-package com.me4502.racquel.mixin;
+package com.me4502.racquel.util;
 
-import net.minecraft.client.MinecraftClient;
-import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.injection.At;
-import org.spongepowered.asm.mixin.injection.Inject;
-import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+public class RenderUtils {
 
-@Mixin(MinecraftClient.class)
-public class ExampleMixin {
-	@Inject(at = @At("HEAD"), method = "init()V")
-	private void init(CallbackInfo info) {
-		System.out.println("This line is printed by an example mod mixin!");
-	}
+    public static int rgbToInt(int r, int g, int b) {
+        return b + (g << 8) + (r << 16);
+    }
 }
