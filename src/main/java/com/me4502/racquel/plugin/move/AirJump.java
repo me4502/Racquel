@@ -22,46 +22,32 @@
  * SOFTWARE.
  */
 
-package com.me4502.racquel;
+package com.me4502.racquel.plugin.move;
 
 import com.me4502.racquel.plugin.Plugin;
-import com.me4502.racquel.plugin.move.AirJump;
-import com.me4502.racquel.plugin.move.FastMoving;
-import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.event.client.ClientTickCallback;
 import net.minecraft.client.MinecraftClient;
+import org.lwjgl.glfw.GLFW;
 
-import java.util.ArrayList;
-import java.util.List;
+public class AirJump extends Plugin {
 
-public class Racquel implements ModInitializer {
+    @Override
+    public void init() {
+        super.init();
 
-	public static final String IDENTIFIER_ID = "racquel";
-	public static final String KEYBINDING_CATEGORY = "Racquel";
+        ClientTickCallback.EVENT.register(this::onTick);
+    }
 
-	private List<Plugin> plugins = new ArrayList<>();
+    public void onTick(MinecraftClient client) {
+        if (!isEnabled()) {
+            return;
+        }
 
-	@Override
-	public void onInitialize() {
-		System.out.println("Registering plugins");
-		registerPlugins();
+        getPlayer().onGround = true;
+    }
 
-		System.out.println("Initialising core-events");
-		ClientTickCallback.EVENT.register(this::onTick);
-
-		plugins.forEach(Plugin::init);
-	}
-
-	public void registerPlugins() {
-		plugins.add(new FastMoving());
-		plugins.add(new AirJump());
-	}
-
-	public void onTick(MinecraftClient client) {
-		// Handle Keybind changes.
-		plugins.stream()
-				.filter(plugin -> plugin.getKeybind().isPresent())
-				.filter(plugin -> plugin.getKeybind().get().isPressed())
-				.forEach(Plugin::toggle);
-	}
+    @Override
+    public int getKeyCode() {
+        return GLFW.GLFW_KEY_J;
+    }
 }
