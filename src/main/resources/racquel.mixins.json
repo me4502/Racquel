@@ -5,7 +5,7 @@
   "mixins": [
   ],
   "client": [
-    "ExampleMixin"
+    "MixinInGameHud"
   ],
   "injectors": {
     "defaultRequire": 1

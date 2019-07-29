@@ -24,16 +24,18 @@
 
 package com.me4502.racquel.mixin;
 
-import net.minecraft.client.MinecraftClient;
+import com.me4502.racquel.event.render.PostGuiRenderCallback;
+import net.minecraft.client.gui.hud.InGameHud;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
-@Mixin(MinecraftClient.class)
-public class ExampleMixin {
-	@Inject(at = @At("HEAD"), method = "init()V")
-	private void init(CallbackInfo info) {
-		System.out.println("This line is printed by an example mod mixin!");
-	}
+@Mixin(InGameHud.class)
+public class MixinInGameHud {
+
+    @Inject(method = "render(F)V", at = @At(value = "TAIL"))
+    public void onPostHudRender(float delta, CallbackInfo ci) {
+        PostGuiRenderCallback.EVENT.invoker().postRender((InGameHud) (Object) this);
+    }
 }
