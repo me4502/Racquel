@@ -7,7 +7,8 @@
   "client": [
     "MixinInGameHud",
     "MixinClientConnection",
-    "packet.AccessorPlayerMoveC2SPacket"
+    "packet.AccessorPlayerMoveC2SPacket",
+    "packet.AccessorClientCommandC2SPacket"
   ],
   "injectors": {
     "defaultRequire": 1

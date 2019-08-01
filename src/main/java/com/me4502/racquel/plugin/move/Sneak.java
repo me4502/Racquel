@@ -25,35 +25,53 @@
 package com.me4502.racquel.plugin.move;
 
 import com.me4502.racquel.event.network.PacketSendCallback;
-import com.me4502.racquel.mixin.packet.AccessorPlayerMoveC2SPacket;
+import com.me4502.racquel.mixin.packet.AccessorClientCommandC2SPacket;
 import com.me4502.racquel.plugin.Plugin;
+import net.minecraft.client.MinecraftClient;
 import net.minecraft.network.Packet;
-import net.minecraft.server.network.packet.PlayerMoveC2SPacket;
+import net.minecraft.server.network.packet.ClientCommandC2SPacket;
 import net.minecraft.util.ActionResult;
 import org.lwjgl.glfw.GLFW;
 
-public class NoFall extends Plugin {
+public class Sneak extends Plugin {
 
     @Override
     public void init() {
         super.init();
 
-        PacketSendCallback.EVENT.register(this::onSend);
+        PacketSendCallback.EVENT.register(this::onPacketSend);
     }
 
     @Override
-    public int getKeyCode() {
-        return GLFW.GLFW_KEY_N;
+    public void enable() {
+        super.enable();
+
+        MinecraftClient.getInstance().getNetworkHandler().getConnection().send(
+                new ClientCommandC2SPacket(getPlayer(), ClientCommandC2SPacket.Mode.START_SNEAKING)
+        );
     }
 
-    public ActionResult onSend(Packet packet) {
+    @Override
+    public void disable() {
+        super.disable();
+    }
+
+    public ActionResult onPacketSend(Packet<?> packet) {
         if (!isEnabled()) {
             return ActionResult.PASS;
         }
 
-        if (packet instanceof PlayerMoveC2SPacket) {
-            ((AccessorPlayerMoveC2SPacket) packet).setOnGround(true);
+        if (packet instanceof ClientCommandC2SPacket) {
+            ClientCommandC2SPacket pack = (ClientCommandC2SPacket) packet;
+            if (pack.getMode() == ClientCommandC2SPacket.Mode.STOP_SNEAKING)
+                ((AccessorClientCommandC2SPacket) pack).setMode(ClientCommandC2SPacket.Mode.START_SNEAKING);
         }
+
         return ActionResult.PASS;
+    }
+
+    @Override
+    public int getKeyCode() {
+        return GLFW.GLFW_KEY_RIGHT_BRACKET;
     }
 }
