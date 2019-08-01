@@ -22,38 +22,15 @@
  * SOFTWARE.
  */
 
-package com.me4502.racquel.plugin.move;
+package com.me4502.racquel.mixin.packet;
 
-import com.me4502.racquel.event.network.PacketSendCallback;
-import com.me4502.racquel.mixin.packet.AccessorPlayerMoveC2SPacket;
-import com.me4502.racquel.plugin.Plugin;
-import net.minecraft.network.Packet;
-import net.minecraft.server.network.packet.PlayerMoveC2SPacket;
-import net.minecraft.util.ActionResult;
-import org.lwjgl.glfw.GLFW;
+import net.minecraft.server.network.packet.ClientCommandC2SPacket;
+import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.gen.Accessor;
 
-public class NoFall extends Plugin {
+@Mixin(ClientCommandC2SPacket.class)
+public interface AccessorClientCommandC2SPacket {
 
-    @Override
-    public void init() {
-        super.init();
-
-        PacketSendCallback.EVENT.register(this::onSend);
-    }
-
-    @Override
-    public int getKeyCode() {
-        return GLFW.GLFW_KEY_N;
-    }
-
-    public ActionResult onSend(Packet packet) {
-        if (!isEnabled()) {
-            return ActionResult.PASS;
-        }
-
-        if (packet instanceof PlayerMoveC2SPacket) {
-            ((AccessorPlayerMoveC2SPacket) packet).setOnGround(true);
-        }
-        return ActionResult.PASS;
-    }
+    @Accessor("mode")
+    void setMode(ClientCommandC2SPacket.Mode mode);
 }
