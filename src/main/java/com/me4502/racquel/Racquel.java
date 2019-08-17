@@ -74,7 +74,7 @@ public class Racquel implements ModInitializer {
 		// Handle Keybind changes.
 		plugins.stream()
 				.filter(plugin -> plugin.getKeybind().isPresent())
-				.filter(plugin -> plugin.getKeybind().get().isPressed())
+				.filter(plugin -> plugin.getKeybind().get().wasPressed())
 				.forEach(Plugin::toggle);
 	}
 

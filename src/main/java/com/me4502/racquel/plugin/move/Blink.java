@@ -82,7 +82,6 @@ public class Blink extends Plugin {
                 || packet instanceof PlayerInputC2SPacket;
     }
 
-
     @Override
     public int getKeyCode() {
         return GLFW.GLFW_KEY_B;
