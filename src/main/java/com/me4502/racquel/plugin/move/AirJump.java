@@ -29,6 +29,20 @@ import net.fabricmc.fabric.api.event.client.ClientTickCallback;
 import net.minecraft.client.MinecraftClient;
 import org.lwjgl.glfw.GLFW;
 
+/**
+ * This cheat works by setting the "onGround" value of
+ * the player to true at all times.
+ *
+ * This allows the player to always be able to jump,
+ * even when in the air. Due to the client using this
+ * value as an "allowance" for jumping, just simply
+ * setting this value works fine.
+ *
+ * The best way to patch this is to check for sudden
+ * changes in upwards vertical velocity caused by the
+ * client, when the player is not directly above any
+ * blocks.
+ */
 public class AirJump extends Plugin {
 
     @Override

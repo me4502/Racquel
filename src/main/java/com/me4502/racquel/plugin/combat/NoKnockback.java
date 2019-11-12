@@ -22,54 +22,57 @@
  * SOFTWARE.
  */
 
-package com.me4502.racquel.plugin.move;
+package com.me4502.racquel.plugin.combat;
 
-import com.me4502.racquel.event.network.PacketSendCallback;
-import com.me4502.racquel.mixin.packet.AccessorPlayerMoveC2SPacket;
+import com.me4502.racquel.event.network.PacketHandleCallback;
 import com.me4502.racquel.plugin.Plugin;
+import net.minecraft.client.network.packet.EntityVelocityUpdateS2CPacket;
 import net.minecraft.network.Packet;
-import net.minecraft.server.network.packet.PlayerMoveC2SPacket;
 import net.minecraft.util.ActionResult;
 import org.lwjgl.glfw.GLFW;
 
 /**
- * This cheat works by setting the "onGround" value of
- * the player to true in all movement packets to the
- * server.
+ * This cheat works by refusing to handle packets that update
+ * the player's velocity from the server.
  *
- * This allows the player to never take fall damage,
- * due the client being the absolute authority with
- * this value.
+ * This prevents knockback, or any other server-caused velocity
+ * changes from affecting the player. Due to the client being
+ * the absolute authority on "local movement" on the Minecraft
+ * server, this cheat is possible.
  *
- * The best way to patch this is to keep track of how
- * much downwards vertical movement the player has made
- * since the last time a block was below them. Then
- * apply this damage to the player if they receive it
- * naturally after a few ticks of hitting the ground.
- * You can also check if they consistently are on ground
- * despite falling in mid-air.
+ * Like most movement-related cheats, this one is harder to
+ * patch. A simple approach would be to check if the player
+ * has moved in the "correct" direction over the next few
+ * player position update packets, however cheat clients
+ * can easily adapt to perform small but non-disruptive
+ * movements of the player. This is one of the cheats that
+ * is best solved by looking for smaller inconsistencies
+ * over a longer period of time, as well as blocking obvious
+ * cases.
  */
-public class NoFall extends Plugin {
+public class NoKnockback extends Plugin {
 
     @Override
     public void init() {
         super.init();
 
-        PacketSendCallback.EVENT.register(this::onSend);
+        PacketHandleCallback.EVENT.register(this::onReceive);
     }
 
     @Override
     public int getKeyCode() {
-        return GLFW.GLFW_KEY_N;
+        return GLFW.GLFW_KEY_K;
     }
 
-    public ActionResult onSend(Packet packet) {
+    public ActionResult onReceive(Packet<?> packet) {
         if (!isEnabled()) {
             return ActionResult.PASS;
         }
 
-        if (packet instanceof PlayerMoveC2SPacket) {
-            ((AccessorPlayerMoveC2SPacket) packet).setOnGround(true);
+        if (packet instanceof EntityVelocityUpdateS2CPacket) {
+            if (((EntityVelocityUpdateS2CPacket) packet).getId() == getPlayer().getEntityId()) {
+                return ActionResult.FAIL;
+            }
         }
         return ActionResult.PASS;
     }
