@@ -39,6 +39,32 @@ import org.lwjgl.glfw.GLFW;
 import java.util.ArrayDeque;
 import java.util.Queue;
 
+/**
+ * This cheat works by holding back a select group
+ * of movement-related packets until the cheat is
+ * disabled. Some variants also have a "reset"
+ * button that clears the held packets and sets the
+ * player back to where they were at the start.
+ *
+ * This allows for the player to seemingly
+ * "teleport" a short distance, when in reality they
+ * have actually moved the distance with the server
+ * processing all happening at the end. With a reset
+ * mode implemented, this allows for players to try
+ * a complex jump or similar over and over again
+ * without having to worry about messing up, as
+ * they can make only the successful attempt count.
+ *
+ * One way to detect this cheat is to check what
+ * sorts of packets are being delayed. If some packets
+ * are coming through fine while others are consistently
+ * delayed, it's possible blink is in use. If the
+ * implementation is however holding all packets, the
+ * cheat will look almost identical to a player with
+ * a very intermittent internet connection. These
+ * cases are generally not worth worrying about as
+ * it's not a very powerful cheat.
+ */
 public class Blink extends Plugin {
 
     private Queue<Packet<?>> packetQueue = new ArrayDeque<>();
