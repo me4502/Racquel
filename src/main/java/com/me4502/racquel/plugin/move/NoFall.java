@@ -63,7 +63,7 @@ public class NoFall extends Plugin {
         return GLFW.GLFW_KEY_N;
     }
 
-    public ActionResult onSend(Packet packet) {
+    public ActionResult onSend(Packet<?> packet) {
         if (!isEnabled()) {
             return ActionResult.PASS;
         }
