@@ -61,7 +61,7 @@ public class FastMoving extends Plugin {
         oldFly = BASE_FLY_SPEED;
 
         getPlayer().getAttributeInstance(EntityAttributes.MOVEMENT_SPEED).setBaseValue(speed);
-        getPlayer().field_6281 = speed;
+        getPlayer().flyingSpeed = speed;
     }
 
     @Override
@@ -69,7 +69,7 @@ public class FastMoving extends Plugin {
         super.disable();
 
         getPlayer().getAttributeInstance(EntityAttributes.MOVEMENT_SPEED).setBaseValue(oldWalk);
-        getPlayer().field_6281 = oldFly;
+        getPlayer().flyingSpeed = oldFly;
     }
 
     public void onTick(MinecraftClient client) {
@@ -78,6 +78,6 @@ public class FastMoving extends Plugin {
         }
 
         getPlayer().getAttributeInstance(EntityAttributes.MOVEMENT_SPEED).setBaseValue(speed);
-        getPlayer().field_6281 = speed;
+        getPlayer().flyingSpeed = speed;
     }
 }
