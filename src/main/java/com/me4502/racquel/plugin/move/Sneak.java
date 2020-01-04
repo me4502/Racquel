@@ -47,7 +47,7 @@ public class Sneak extends Plugin {
         super.enable();
 
         MinecraftClient.getInstance().getNetworkHandler().getConnection().send(
-                new ClientCommandC2SPacket(getPlayer(), ClientCommandC2SPacket.Mode.START_SNEAKING)
+                new ClientCommandC2SPacket(getPlayer(), ClientCommandC2SPacket.Mode.PRESS_SHIFT_KEY)
         );
     }
 
@@ -63,8 +63,8 @@ public class Sneak extends Plugin {
 
         if (packet instanceof ClientCommandC2SPacket) {
             ClientCommandC2SPacket pack = (ClientCommandC2SPacket) packet;
-            if (pack.getMode() == ClientCommandC2SPacket.Mode.STOP_SNEAKING)
-                ((AccessorClientCommandC2SPacket) pack).setMode(ClientCommandC2SPacket.Mode.START_SNEAKING);
+            if (pack.getMode() == ClientCommandC2SPacket.Mode.RELEASE_SHIFT_KEY)
+                ((AccessorClientCommandC2SPacket) pack).setMode(ClientCommandC2SPacket.Mode.PRESS_SHIFT_KEY);
         }
 
         return ActionResult.PASS;
