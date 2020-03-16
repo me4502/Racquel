@@ -29,7 +29,7 @@ import com.me4502.racquel.mixin.packet.AccessorClientCommandC2SPacket;
 import com.me4502.racquel.plugin.Plugin;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.network.Packet;
-import net.minecraft.server.network.packet.ClientCommandC2SPacket;
+import net.minecraft.network.packet.c2s.play.ClientCommandC2SPacket;
 import net.minecraft.util.ActionResult;
 import org.lwjgl.glfw.GLFW;
 
