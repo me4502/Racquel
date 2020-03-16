@@ -28,7 +28,7 @@ import com.me4502.racquel.event.network.PacketSendCallback;
 import com.me4502.racquel.mixin.packet.AccessorPlayerMoveC2SPacket;
 import com.me4502.racquel.plugin.Plugin;
 import net.minecraft.network.Packet;
-import net.minecraft.server.network.packet.PlayerMoveC2SPacket;
+import net.minecraft.network.packet.c2s.play.PlayerMoveC2SPacket;
 import net.minecraft.util.ActionResult;
 import org.lwjgl.glfw.GLFW;
 

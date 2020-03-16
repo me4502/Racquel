@@ -27,7 +27,7 @@ package com.me4502.racquel.plugin.misc;
 import com.me4502.racquel.event.network.PacketSendCallback;
 import com.me4502.racquel.plugin.Plugin;
 import net.minecraft.network.Packet;
-import net.minecraft.server.network.packet.GuiCloseC2SPacket;
+import net.minecraft.network.packet.c2s.play.GuiCloseC2SPacket;
 import net.minecraft.util.ActionResult;
 import org.lwjgl.glfw.GLFW;
 

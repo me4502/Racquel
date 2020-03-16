@@ -33,5 +33,5 @@ import org.spongepowered.asm.mixin.gen.Accessor;
 public interface AccessorEntity {
 
     @Accessor("movementMultiplier")
-    void setMovementMultiplier(Vec3d mode);
+    void setMovementMultiplier(Vec3d movementMultiplier);
 }
