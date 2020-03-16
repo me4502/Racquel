@@ -91,7 +91,7 @@ public abstract class Plugin {
      * @return If enabled
      */
     public boolean isEnabled() {
-        return this.enabled;
+        return this.enabled && MinecraftClient.getInstance().player != null;
     }
 
     /**
