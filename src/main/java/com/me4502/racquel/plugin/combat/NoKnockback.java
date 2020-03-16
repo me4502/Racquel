@@ -26,7 +26,7 @@ package com.me4502.racquel.plugin.combat;
 
 import com.me4502.racquel.event.network.PacketHandleCallback;
 import com.me4502.racquel.plugin.Plugin;
-import net.minecraft.client.network.packet.EntityVelocityUpdateS2CPacket;
+import net.minecraft.network.packet.s2c.play.EntityVelocityUpdateS2CPacket;
 import net.minecraft.network.Packet;
 import net.minecraft.util.ActionResult;
 import org.lwjgl.glfw.GLFW;
