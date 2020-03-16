@@ -34,6 +34,7 @@ import com.me4502.racquel.plugin.move.AirJump;
 import com.me4502.racquel.plugin.move.Blink;
 import com.me4502.racquel.plugin.move.FastMoving;
 import com.me4502.racquel.plugin.move.NoFall;
+import com.me4502.racquel.plugin.move.NoSlow;
 import com.me4502.racquel.plugin.move.Sneak;
 import com.me4502.racquel.plugin.move.WallClimb;
 import net.fabricmc.api.ModInitializer;
@@ -72,6 +73,7 @@ public class Racquel implements ModInitializer {
 		plugins.add(new Blink());
 		plugins.add(new NoKnockback());
 		plugins.add(new MoreInventory());
+		plugins.add(new NoSlow());
 	}
 
 	public void onTick(MinecraftClient client) {
