@@ -30,6 +30,7 @@ import com.me4502.racquel.event.render.PostGuiRenderCallback;
 import com.me4502.racquel.plugin.Plugin;
 import com.me4502.racquel.plugin.combat.NoKnockback;
 import com.me4502.racquel.plugin.misc.MoreInventory;
+import com.me4502.racquel.plugin.misc.Overclock;
 import com.me4502.racquel.plugin.move.AirJump;
 import com.me4502.racquel.plugin.move.Blink;
 import com.me4502.racquel.plugin.move.FastMoving;
@@ -74,6 +75,7 @@ public class Racquel implements ModInitializer {
 		plugins.add(new NoKnockback());
 		plugins.add(new MoreInventory());
 		plugins.add(new NoSlow());
+		plugins.add(new Overclock());
 	}
 
 	public void onTick(MinecraftClient client) {

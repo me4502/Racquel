@@ -9,7 +9,8 @@
     "MixinClientConnection",
     "packet.AccessorPlayerMoveC2SPacket",
     "packet.AccessorClientCommandC2SPacket",
-    "AccessorEntity"
+    "AccessorEntity",
+    "AccessorMinecraftClient"
   ],
   "injectors": {
     "defaultRequire": 1
