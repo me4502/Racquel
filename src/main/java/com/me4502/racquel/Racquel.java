@@ -51,7 +51,7 @@ public class Racquel implements ModInitializer {
 	public static final String IDENTIFIER_ID = "racquel";
 	public static final String KEYBINDING_CATEGORY = "Racquel";
 
-	private List<Plugin> plugins = new ArrayList<>();
+	private final List<Plugin> plugins = new ArrayList<>();
 
 	@Override
 	public void onInitialize() {
@@ -80,10 +80,11 @@ public class Racquel implements ModInitializer {
 
 	public void onTick(MinecraftClient client) {
 		// Handle Keybind changes.
-		plugins.stream()
-				.filter(plugin -> plugin.getKeybind().isPresent())
-				.filter(plugin -> plugin.getKeybind().get().wasPressed())
-				.forEach(Plugin::toggle);
+		for (Plugin plugin : plugins) {
+			if (plugin.getKeybind().isPresent() && plugin.getKeybind().get().wasPressed()) {
+				plugin.toggle();
+			}
+		}
 	}
 
 	public void onPostRender(InGameHud inGameHud) {
