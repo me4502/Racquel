@@ -39,9 +39,10 @@ import com.me4502.racquel.plugin.move.NoSlow;
 import com.me4502.racquel.plugin.move.Sneak;
 import com.me4502.racquel.plugin.move.WallClimb;
 import net.fabricmc.api.ModInitializer;
-import net.fabricmc.fabric.api.event.client.ClientTickCallback;
+import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.hud.InGameHud;
+import net.minecraft.client.util.math.MatrixStack;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -59,7 +60,7 @@ public class Racquel implements ModInitializer {
 		registerPlugins();
 
 		System.out.println("Initialising core-events");
-		ClientTickCallback.EVENT.register(this::onTick);
+		ClientTickEvents.END_CLIENT_TICK.register(this::onTick);
 		PostGuiRenderCallback.EVENT.register(this::onPostRender);
 
 		plugins.forEach(Plugin::init);
@@ -87,12 +88,12 @@ public class Racquel implements ModInitializer {
 		}
 	}
 
-	public void onPostRender(InGameHud inGameHud) {
+	public void onPostRender(MatrixStack stack, InGameHud inGameHud) {
 		int renderIndex = 0;
 		for (Plugin plugin : plugins) {
 			if (plugin.isEnabled()) {
-				inGameHud.drawString(
-						MinecraftClient.getInstance().textRenderer,
+				MinecraftClient.getInstance().textRenderer.draw(
+						stack,
 						plugin.getName(),
 						10,
 						(renderIndex++ * 10) + 10,

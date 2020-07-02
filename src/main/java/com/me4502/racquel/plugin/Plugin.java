@@ -27,12 +27,11 @@ package com.me4502.racquel.plugin;
 import static com.me4502.racquel.Racquel.IDENTIFIER_ID;
 import static com.me4502.racquel.Racquel.KEYBINDING_CATEGORY;
 
-import net.fabricmc.fabric.api.client.keybinding.FabricKeyBinding;
-import net.fabricmc.fabric.api.client.keybinding.KeyBindingRegistry;
+import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.network.ClientPlayerEntity;
+import net.minecraft.client.options.KeyBinding;
 import net.minecraft.client.util.InputUtil;
-import net.minecraft.util.Identifier;
 
 import java.util.Optional;
 
@@ -42,17 +41,15 @@ import java.util.Optional;
 public abstract class Plugin {
 
     private boolean enabled;
-    private FabricKeyBinding keybind;
+    private KeyBinding keybind;
 
     /**
      * Called when the plugin is first loaded.
      */
     public void init() {
         if (getKeyCode() > 0) {
-            this.keybind = FabricKeyBinding.Builder
-                    .create(new Identifier(IDENTIFIER_ID, getName()), InputUtil.Type.KEYSYM, getKeyCode(), KEYBINDING_CATEGORY)
-                    .build();
-            KeyBindingRegistry.INSTANCE.register(keybind);
+            this.keybind = new KeyBinding(IDENTIFIER_ID + "." + getName(), InputUtil.Type.KEYSYM, getKeyCode(), KEYBINDING_CATEGORY);
+            KeyBindingHelper.registerKeyBinding(keybind);
         }
     }
 
@@ -81,7 +78,7 @@ public abstract class Plugin {
      *
      * @return The keybind
      */
-    public Optional<FabricKeyBinding> getKeybind() {
+    public Optional<KeyBinding> getKeybind() {
         return Optional.ofNullable(keybind);
     }
 
