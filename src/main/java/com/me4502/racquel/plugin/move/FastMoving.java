@@ -25,7 +25,7 @@
 package com.me4502.racquel.plugin.move;
 
 import com.me4502.racquel.plugin.Plugin;
-import net.fabricmc.fabric.api.event.client.ClientTickCallback;
+import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.entity.attribute.EntityAttributes;
 import org.lwjgl.glfw.GLFW;
@@ -35,7 +35,7 @@ public class FastMoving extends Plugin {
     // The original value is inlined by the compiler
     private final static float BASE_FLY_SPEED = 0.02f;
 
-    private float speed = 0.6f;
+    private final float speed = 0.6f;
 
     // Store prior values to reset
     private double oldWalk;
@@ -50,17 +50,17 @@ public class FastMoving extends Plugin {
     public void init() {
         super.init();
 
-        ClientTickCallback.EVENT.register(this::onTick);
+        ClientTickEvents.END_CLIENT_TICK.register(this::onTick);
     }
 
     @Override
     public void enable() {
         super.enable();
 
-        oldWalk = getPlayer().getAttributeInstance(EntityAttributes.MOVEMENT_SPEED).getBaseValue();
+        oldWalk = getPlayer().getAttributeInstance(EntityAttributes.GENERIC_MOVEMENT_SPEED).getBaseValue();
         oldFly = BASE_FLY_SPEED;
 
-        getPlayer().getAttributeInstance(EntityAttributes.MOVEMENT_SPEED).setBaseValue(speed);
+        getPlayer().getAttributeInstance(EntityAttributes.GENERIC_MOVEMENT_SPEED).setBaseValue(speed);
         getPlayer().flyingSpeed = speed;
     }
 
@@ -68,7 +68,7 @@ public class FastMoving extends Plugin {
     public void disable() {
         super.disable();
 
-        getPlayer().getAttributeInstance(EntityAttributes.MOVEMENT_SPEED).setBaseValue(oldWalk);
+        getPlayer().getAttributeInstance(EntityAttributes.GENERIC_MOVEMENT_SPEED).setBaseValue(oldWalk);
         getPlayer().flyingSpeed = oldFly;
     }
 
@@ -77,7 +77,7 @@ public class FastMoving extends Plugin {
             return;
         }
 
-        getPlayer().getAttributeInstance(EntityAttributes.MOVEMENT_SPEED).setBaseValue(speed);
+        getPlayer().getAttributeInstance(EntityAttributes.GENERIC_MOVEMENT_SPEED).setBaseValue(speed);
         getPlayer().flyingSpeed = speed;
     }
 }
