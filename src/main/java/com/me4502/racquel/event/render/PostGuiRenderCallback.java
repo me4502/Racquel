@@ -27,16 +27,17 @@ package com.me4502.racquel.event.render;
 import net.fabricmc.fabric.api.event.Event;
 import net.fabricmc.fabric.api.event.EventFactory;
 import net.minecraft.client.gui.hud.InGameHud;
+import net.minecraft.client.util.math.MatrixStack;
 
 public interface PostGuiRenderCallback {
 
     Event<PostGuiRenderCallback> EVENT = EventFactory.createArrayBacked(PostGuiRenderCallback.class,
-            (listeners) -> (inGameHud) -> {
+            (listeners) -> (matrixStack, inGameHud) -> {
                 for (PostGuiRenderCallback event : listeners) {
-                    event.postRender(inGameHud);
+                    event.postRender(matrixStack, inGameHud);
                 }
             });
 
-    void postRender(InGameHud inGameHud);
+    void postRender(MatrixStack matrixStack, InGameHud inGameHud);
 
 }

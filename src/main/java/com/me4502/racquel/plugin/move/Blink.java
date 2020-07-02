@@ -67,7 +67,7 @@ import java.util.Queue;
  */
 public class Blink extends Plugin {
 
-    private Queue<Packet<?>> packetQueue = new ArrayDeque<>();
+    private final Queue<Packet<?>> packetQueue = new ArrayDeque<>();
 
     @Override
     public void init() {
