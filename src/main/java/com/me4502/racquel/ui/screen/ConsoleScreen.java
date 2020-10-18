@@ -44,8 +44,8 @@ public class ConsoleScreen extends Screen {
 
         int textHeight = MinecraftClient.getInstance().textRenderer.fontHeight;
 
-        panels.add(new PluginsPanel(0, 0, 200, textHeight * 10));
-        panels.add(new StatsPanel(0, textHeight * 10 + 10, 200, textHeight * 3));
+        panels.add(new PluginsPanel(0, 0, 100, textHeight * 10));
+        panels.add(new StatsPanel(0, textHeight * 10 + 10, 100, textHeight * 3));
     }
 
     @Override

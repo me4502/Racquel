@@ -46,9 +46,10 @@ public abstract class Panel extends AbstractParentElement implements Drawable, T
     private boolean pinned;
     private boolean open;
 
-    private double dragLastX;
-    private double dragLastY;
+    private double dragXOffset;
+    private double dragYOffset;
     private boolean hasMoved;
+    private boolean resizing;
 
     private final String name;
     private final List<Control> children = Lists.newArrayList();
@@ -90,22 +91,26 @@ public abstract class Panel extends AbstractParentElement implements Drawable, T
                 setPinned(!isPinned());
             } else {
                 setDragging(true);
-                dragLastX = mouseX;
-                dragLastY = mouseY;
+                dragXOffset = x - mouseX;
+                dragYOffset = y - mouseY;
                 hasMoved = false;
             }
+        } else if (mouseX >= x + width - 8 && mouseX <= x + width && mouseY >= y + height - 8 && mouseY <= y + height) {
+            resizing = true;
         }
+
         return false;
     }
 
     @Override
     public boolean mouseDragged(double mouseX, double mouseY, int button, double deltaX, double deltaY) {
         if (isDragging()) {
-            x += mouseX - dragLastX;
-            y += mouseY - dragLastY;
-            dragLastX = mouseX;
-            dragLastY = mouseY;
+            x = (int) (mouseX + dragXOffset);
+            y = (int) (mouseY + dragYOffset);
             hasMoved = true;
+        } else if (resizing) {
+            width = (int) mouseX - x;
+            height = (int) mouseY - y;
         }
 
         return false;
@@ -118,11 +123,16 @@ public abstract class Panel extends AbstractParentElement implements Drawable, T
             if (!hasMoved) {
                 open = !open;
             } else {
-                x += mouseX - dragLastX;
-                y += mouseY - dragLastY;
+                x = (int) (mouseX + dragXOffset);
+                y = (int) (mouseY + dragYOffset);
                 hasMoved = false;
             }
+        } else if (resizing) {
+            resizing = false;
+            width = (int) mouseX - x;
+            height = (int) mouseY - y;
         }
+
         return false;
     }
 
