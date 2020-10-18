@@ -24,6 +24,7 @@
 
 package com.me4502.racquel.mixin;
 
+import com.me4502.racquel.Racquel;
 import com.me4502.racquel.event.network.PacketHandleCallback;
 import com.me4502.racquel.event.network.PacketSendCallback;
 import io.netty.util.concurrent.Future;
@@ -43,6 +44,7 @@ public class MixinClientConnection {
     @Inject(method = "handlePacket(Lnet/minecraft/network/Packet;Lnet/minecraft/network/listener/PacketListener;)V",
             at = @At("HEAD"), cancellable = true)
     private static void onPacketHandle(Packet<?> packet_1, PacketListener packetListener_1, CallbackInfo ci) {
+        Racquel.lastPacketTime = 0;
         if (PacketHandleCallback.EVENT.invoker().handle(packet_1) != ActionResult.PASS) {
             ci.cancel();
         }

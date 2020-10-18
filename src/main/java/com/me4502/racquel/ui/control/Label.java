@@ -22,19 +22,26 @@
  * SOFTWARE.
  */
 
-package com.me4502.racquel.mixin;
+package com.me4502.racquel.ui.control;
 
 import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.render.RenderTickCounter;
-import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.gen.Accessor;
+import net.minecraft.client.util.math.MatrixStack;
 
-@Mixin(MinecraftClient.class)
-public interface AccessorMinecraftClient {
+public class Label extends Control {
+    private String text;
 
-    @Accessor("renderTickCounter")
-    void setRenderTickCounter(RenderTickCounter renderTickCounter);
+    public Label(int x, int y, String text) {
+        super(MinecraftClient.getInstance().textRenderer.getWidth(text), MinecraftClient.getInstance().textRenderer.fontHeight, x, y);
 
-    @Accessor("renderTickCounter")
-    RenderTickCounter getRenderTickCounter();
+        this.text = text;
+    }
+
+    @Override
+    public void render(MatrixStack matrices, int mouseX, int mouseY, float delta) {
+        drawStringWithShadow(matrices, MinecraftClient.getInstance().textRenderer, this.text, parentX + x, parentY + y, 0xffffffff);
+    }
+
+    public void setText(String text) {
+        this.text = text;
+    }
 }
