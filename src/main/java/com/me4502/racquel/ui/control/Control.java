@@ -22,19 +22,45 @@
  * SOFTWARE.
  */
 
-package com.me4502.racquel.mixin;
+package com.me4502.racquel.ui.control;
 
-import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.render.RenderTickCounter;
-import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.gen.Accessor;
+import net.minecraft.client.gui.Drawable;
+import net.minecraft.client.gui.DrawableHelper;
+import net.minecraft.client.gui.Element;
 
-@Mixin(MinecraftClient.class)
-public interface AccessorMinecraftClient {
+public abstract class Control extends DrawableHelper implements Drawable, Element {
+    protected int x;
+    protected int y;
+    protected int width;
+    protected int height;
 
-    @Accessor("renderTickCounter")
-    void setRenderTickCounter(RenderTickCounter renderTickCounter);
+    public Control(int width, int height, int x, int y) {
+        this.x = x;
+        this.y = y;
+        this.width = width;
+        this.height = height;
+    }
 
-    @Accessor("renderTickCounter")
-    RenderTickCounter getRenderTickCounter();
+    protected int parentX, parentY;
+
+    public int getX() {
+        return this.x;
+    }
+
+    public int getY() {
+        return this.y;
+    }
+
+    public int getWidth() {
+        return this.width;
+    }
+
+    public int getHeight() {
+        return this.height;
+    }
+
+    public void updateParentOffsets(int x, int y) {
+        this.parentX = x;
+        this.parentY = y;
+    }
 }
