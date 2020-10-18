@@ -24,8 +24,6 @@
 
 package com.me4502.racquel;
 
-import static com.me4502.racquel.util.RenderUtils.rgbToInt;
-
 import com.me4502.racquel.event.render.PostGuiRenderCallback;
 import com.me4502.racquel.plugin.Plugin;
 import com.me4502.racquel.plugin.combat.NoKnockback;
@@ -38,32 +36,58 @@ import com.me4502.racquel.plugin.move.NoFall;
 import com.me4502.racquel.plugin.move.NoSlow;
 import com.me4502.racquel.plugin.move.Sneak;
 import com.me4502.racquel.plugin.move.WallClimb;
+import com.me4502.racquel.ui.panel.Panel;
+import com.me4502.racquel.ui.screen.ConsoleScreen;
 import net.fabricmc.api.ModInitializer;
+import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientLifecycleEvents;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
+import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.hud.InGameHud;
+import net.minecraft.client.options.KeyBinding;
+import net.minecraft.client.util.InputUtil;
 import net.minecraft.client.util.math.MatrixStack;
+import org.lwjgl.glfw.GLFW;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class Racquel implements ModInitializer {
 
+	public static Racquel INSTANCE;
+
 	public static final String IDENTIFIER_ID = "racquel";
 	public static final String KEYBINDING_CATEGORY = "Racquel";
 
 	private final List<Plugin> plugins = new ArrayList<>();
 
+	private KeyBinding consoleKeybind;
+	private ConsoleScreen consoleScreen;
+
+	public static int lastPacketTime = 0;
+
+	public Racquel() {
+		INSTANCE = this;
+	}
+
 	@Override
 	public void onInitialize() {
+		consoleKeybind = new KeyBinding(IDENTIFIER_ID + ".console", InputUtil.Type.KEYSYM, GLFW.GLFW_KEY_GRAVE_ACCENT, KEYBINDING_CATEGORY);
+		KeyBindingHelper.registerKeyBinding(consoleKeybind);
+
 		System.out.println("Registering plugins");
 		registerPlugins();
 
 		System.out.println("Initialising core-events");
 		ClientTickEvents.END_CLIENT_TICK.register(this::onTick);
 		PostGuiRenderCallback.EVENT.register(this::onPostRender);
+		ClientLifecycleEvents.CLIENT_STARTED.register(this::clientStarted);
 
 		plugins.forEach(Plugin::init);
+	}
+
+	public void clientStarted(MinecraftClient minecraftClient) {
+		consoleScreen = new ConsoleScreen();
 	}
 
 	public void registerPlugins() {
@@ -86,20 +110,36 @@ public class Racquel implements ModInitializer {
 				plugin.toggle();
 			}
 		}
+		if (consoleKeybind.wasPressed()) {
+			if (MinecraftClient.getInstance().currentScreen == consoleScreen) {
+				MinecraftClient.getInstance().openScreen(null);
+			} else {
+				MinecraftClient.getInstance().openScreen(consoleScreen);
+			}
+		}
+
+		if (MinecraftClient.getInstance().currentScreen == null && consoleScreen != null) {
+			for (Panel panel : consoleScreen.getPanels()) {
+				if (panel.isPinned()) {
+					panel.tick();
+				}
+			}
+		}
+
+		lastPacketTime ++;
 	}
 
 	public void onPostRender(MatrixStack stack, InGameHud inGameHud) {
-		int renderIndex = 0;
-		for (Plugin plugin : plugins) {
-			if (plugin.isEnabled()) {
-				MinecraftClient.getInstance().textRenderer.draw(
-						stack,
-						plugin.getName(),
-						10,
-						(renderIndex++ * 10) + 10,
-						rgbToInt(0, 255, 0)
-				);
+		if (consoleScreen != null && MinecraftClient.getInstance().currentScreen != consoleScreen) {
+			for (Panel panel : consoleScreen.getPanels()) {
+				if (panel.isPinned()) {
+					panel.render(stack, 0, 0, 0);
+				}
 			}
 		}
+	}
+
+	public List<Plugin> getPlugins() {
+		return this.plugins;
 	}
 }

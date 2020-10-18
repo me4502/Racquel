@@ -22,19 +22,36 @@
  * SOFTWARE.
  */
 
-package com.me4502.racquel.mixin;
+package com.me4502.racquel.ui.panel;
 
+import com.me4502.racquel.Racquel;
+import com.me4502.racquel.plugin.Plugin;
 import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.render.RenderTickCounter;
-import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.gen.Accessor;
+import net.minecraft.client.util.math.MatrixStack;
 
-@Mixin(MinecraftClient.class)
-public interface AccessorMinecraftClient {
+import static com.me4502.racquel.util.RenderUtils.rgbToInt;
 
-    @Accessor("renderTickCounter")
-    void setRenderTickCounter(RenderTickCounter renderTickCounter);
+public class PluginsPanel extends Panel {
 
-    @Accessor("renderTickCounter")
-    RenderTickCounter getRenderTickCounter();
+    public PluginsPanel(int x, int y, int width, int height) {
+        super("Plugins", x, y, width, height);
+
+        setPinned(true);
+    }
+
+    @Override
+    public void renderContents(MatrixStack matrices, int mouseX, int mouseY, float delta) {
+        int renderIndex = 0;
+        for (Plugin plugin : Racquel.INSTANCE.getPlugins()) {
+            if (plugin.isEnabled()) {
+                MinecraftClient.getInstance().textRenderer.draw(
+                    matrices,
+                    plugin.getName(),
+                    x + 6,
+                    y + (renderIndex++ * 10) + TOP_HEIGHT,
+                    rgbToInt(0, 255, 0)
+                );
+            }
+        }
+    }
 }
