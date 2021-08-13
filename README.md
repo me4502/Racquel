@@ -12,7 +12,7 @@ What anyone does with this software is on them. I explicitly do not condone any 
 
 ## Why call it Racquel?
  
-Years ago I [wrote private AntiCheat plugins](https://matthewmiller.dev/blog/the-4-year-late-postmortem-of-an-advanced-aimbot-detection-system/) 
+Years ago I [wrote private AntiCheat plugins](https://madelinemiller.dev/blog/the-4-year-late-postmortem-of-an-advanced-aimbot-detection-system/) 
 for a few large Minecraft networks. The shared source between these different projects was named Rita, paying Homeage to the first poster of Rita
  Hayworth that Andy Dufrane hangs in his cell during The Shawshank Redemption. 
  

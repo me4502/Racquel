@@ -30,12 +30,11 @@ import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.AbstractParentElement;
 import net.minecraft.client.gui.Drawable;
 import net.minecraft.client.gui.Element;
-import net.minecraft.client.gui.screen.TickableElement;
 import net.minecraft.client.util.math.MatrixStack;
 
 import java.util.List;
 
-public abstract class Panel extends AbstractParentElement implements Drawable, TickableElement {
+public abstract class Panel extends AbstractParentElement implements Drawable {
 
     protected static final int TOP_HEIGHT = MinecraftClient.getInstance().textRenderer.fontHeight + 4;
 
@@ -157,7 +156,6 @@ public abstract class Panel extends AbstractParentElement implements Drawable, T
         }
     }
 
-    @Override
     public void tick() {
     }
 

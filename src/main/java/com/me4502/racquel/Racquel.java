@@ -44,7 +44,7 @@ import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.hud.InGameHud;
-import net.minecraft.client.options.KeyBinding;
+import net.minecraft.client.option.KeyBinding;
 import net.minecraft.client.util.InputUtil;
 import net.minecraft.client.util.math.MatrixStack;
 import org.lwjgl.glfw.GLFW;
@@ -112,9 +112,9 @@ public class Racquel implements ModInitializer {
 		}
 		if (consoleKeybind.wasPressed()) {
 			if (MinecraftClient.getInstance().currentScreen == consoleScreen) {
-				MinecraftClient.getInstance().openScreen(null);
+				MinecraftClient.getInstance().setScreen(null);
 			} else {
-				MinecraftClient.getInstance().openScreen(consoleScreen);
+				MinecraftClient.getInstance().setScreen(consoleScreen);
 			}
 		}
 

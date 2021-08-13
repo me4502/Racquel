@@ -27,7 +27,7 @@ package com.me4502.racquel.plugin.misc;
 import com.me4502.racquel.event.network.PacketSendCallback;
 import com.me4502.racquel.plugin.Plugin;
 import net.minecraft.network.Packet;
-import net.minecraft.network.packet.c2s.play.GuiCloseC2SPacket;
+import net.minecraft.network.packet.c2s.play.CloseHandledScreenC2SPacket;
 import net.minecraft.util.ActionResult;
 import org.lwjgl.glfw.GLFW;
 
@@ -69,7 +69,7 @@ public class MoreInventory extends Plugin {
             return ActionResult.PASS;
         }
 
-        if (packet instanceof GuiCloseC2SPacket) {
+        if (packet instanceof CloseHandledScreenC2SPacket) {
             return ActionResult.FAIL;
         }
         return ActionResult.PASS;
