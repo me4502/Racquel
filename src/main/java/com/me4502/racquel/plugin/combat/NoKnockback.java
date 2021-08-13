@@ -70,7 +70,7 @@ public class NoKnockback extends Plugin {
         }
 
         if (packet instanceof EntityVelocityUpdateS2CPacket) {
-            if (((EntityVelocityUpdateS2CPacket) packet).getId() == getPlayer().getEntityId()) {
+            if (((EntityVelocityUpdateS2CPacket) packet).getId() == getPlayer().getId()) {
                 return ActionResult.FAIL;
             }
         }
