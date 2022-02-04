@@ -24,11 +24,11 @@
 
 package com.me4502.racquel.ui.control;
 
-import net.minecraft.client.gui.Drawable;
-import net.minecraft.client.gui.DrawableHelper;
-import net.minecraft.client.gui.Element;
+import net.minecraft.client.gui.GuiComponent;
+import net.minecraft.client.gui.components.Widget;
+import net.minecraft.client.gui.components.events.GuiEventListener;
 
-public abstract class Control extends DrawableHelper implements Drawable, Element {
+public abstract class Control extends GuiComponent implements Widget, GuiEventListener {
     protected int x;
     protected int y;
     protected int width;

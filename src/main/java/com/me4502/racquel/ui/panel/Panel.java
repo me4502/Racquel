@@ -26,17 +26,17 @@ package com.me4502.racquel.ui.panel;
 
 import com.google.common.collect.Lists;
 import com.me4502.racquel.ui.control.Control;
-import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.gui.AbstractParentElement;
-import net.minecraft.client.gui.Drawable;
-import net.minecraft.client.gui.Element;
-import net.minecraft.client.util.math.MatrixStack;
+import com.mojang.blaze3d.vertex.PoseStack;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.components.Widget;
+import net.minecraft.client.gui.components.events.AbstractContainerEventHandler;
+import net.minecraft.client.gui.components.events.GuiEventListener;
 
 import java.util.List;
 
-public abstract class Panel extends AbstractParentElement implements Drawable {
+public abstract class Panel extends AbstractContainerEventHandler implements Widget {
 
-    protected static final int TOP_HEIGHT = MinecraftClient.getInstance().textRenderer.fontHeight + 4;
+    protected static final int TOP_HEIGHT = Minecraft.getInstance().font.lineHeight + 4;
 
     protected int x;
     protected int y;
@@ -136,11 +136,11 @@ public abstract class Panel extends AbstractParentElement implements Drawable {
     }
 
     @Override
-    public final void render(MatrixStack matrices, int mouseX, int mouseY, float delta) {
+    public final void render(PoseStack matrices, int mouseX, int mouseY, float delta) {
         // Top bar
         fill(matrices, x, y, x + width, y + TOP_HEIGHT, 0x88444444);
-        drawStringWithShadow(matrices, MinecraftClient.getInstance().textRenderer, name, x + 2, y + 2, 0xFFFFFFFF);
-        drawStringWithShadow(matrices, MinecraftClient.getInstance().textRenderer, pinned ? "-" : "+", x + width - 8, y + 2, 0xFFFFFFFF);
+        drawString(matrices, Minecraft.getInstance().font, name, x + 2, y + 2, 0xFFFFFFFF);
+        drawString(matrices, Minecraft.getInstance().font, pinned ? "-" : "+", x + width - 8, y + 2, 0xFFFFFFFF);
 
         // Contents
         if (open) {
@@ -149,7 +149,7 @@ public abstract class Panel extends AbstractParentElement implements Drawable {
         }
     }
 
-    public void renderContents(MatrixStack matrices, int mouseX, int mouseY, float delta) {
+    public void renderContents(PoseStack matrices, int mouseX, int mouseY, float delta) {
         for (Control child : children) {
             child.updateParentOffsets(this.x, this.y + TOP_HEIGHT);
             child.render(matrices, mouseX, mouseY, delta);
@@ -164,7 +164,7 @@ public abstract class Panel extends AbstractParentElement implements Drawable {
     }
 
     @Override
-    public List<? extends Element> children() {
+    public List<? extends GuiEventListener> children() {
         return this.children;
     }
 }

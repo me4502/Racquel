@@ -24,13 +24,15 @@
 
 package com.me4502.racquel.mixin.packet;
 
-import net.minecraft.network.packet.c2s.play.ClientCommandC2SPacket;
+import net.minecraft.network.protocol.game.ServerboundPlayerCommandPacket;
 import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Mutable;
 import org.spongepowered.asm.mixin.gen.Accessor;
 
-@Mixin(ClientCommandC2SPacket.class)
+@Mixin(ServerboundPlayerCommandPacket.class)
 public interface AccessorClientCommandC2SPacket {
 
-    @Accessor("mode")
-    void setMode(ClientCommandC2SPacket.Mode mode);
+    @Mutable
+    @Accessor("action")
+    void setAction(ServerboundPlayerCommandPacket.Action action);
 }

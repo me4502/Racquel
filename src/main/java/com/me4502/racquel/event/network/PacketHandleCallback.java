@@ -26,23 +26,23 @@ package com.me4502.racquel.event.network;
 
 import net.fabricmc.fabric.api.event.Event;
 import net.fabricmc.fabric.api.event.EventFactory;
-import net.minecraft.network.Packet;
-import net.minecraft.util.ActionResult;
+import net.minecraft.network.protocol.Packet;
+import net.minecraft.world.InteractionResult;
 
 public interface PacketHandleCallback {
 
     Event<PacketHandleCallback> EVENT = EventFactory.createArrayBacked(PacketHandleCallback.class,
             (listeners) -> (packet) -> {
                 for (PacketHandleCallback event : listeners) {
-                    ActionResult result = event.handle(packet);
-                    if (result != ActionResult.PASS) {
+                    InteractionResult result = event.handle(packet);
+                    if (result != InteractionResult.PASS) {
                         return result;
                     }
                 }
 
-                return ActionResult.PASS;
+                return InteractionResult.PASS;
             });
 
-    ActionResult handle(Packet packet);
+    InteractionResult handle(Packet packet);
 
 }

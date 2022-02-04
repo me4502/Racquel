@@ -5,12 +5,12 @@
   "mixins": [
   ],
   "client": [
-    "MixinInGameHud",
+    "MixinGui",
     "MixinClientConnection",
-    "packet.AccessorPlayerMoveC2SPacket",
+    "packet.AccessorServerboundMovePlayerPacket",
     "packet.AccessorClientCommandC2SPacket",
     "AccessorEntity",
-    "AccessorMinecraftClient"
+    "AccessorMinecraft"
   ],
   "injectors": {
     "defaultRequire": 1

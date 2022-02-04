@@ -24,10 +24,10 @@
 
 package com.me4502.racquel.event.render;
 
+import com.mojang.blaze3d.vertex.PoseStack;
 import net.fabricmc.fabric.api.event.Event;
 import net.fabricmc.fabric.api.event.EventFactory;
-import net.minecraft.client.gui.hud.InGameHud;
-import net.minecraft.client.util.math.MatrixStack;
+import net.minecraft.client.gui.Gui;
 
 public interface PostGuiRenderCallback {
 
@@ -38,6 +38,6 @@ public interface PostGuiRenderCallback {
                 }
             });
 
-    void postRender(MatrixStack matrixStack, InGameHud inGameHud);
+    void postRender(PoseStack poseStack, Gui inGameHud);
 
 }

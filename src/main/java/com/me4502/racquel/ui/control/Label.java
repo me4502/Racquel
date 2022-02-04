@@ -24,21 +24,21 @@
 
 package com.me4502.racquel.ui.control;
 
-import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.util.math.MatrixStack;
+import com.mojang.blaze3d.vertex.PoseStack;
+import net.minecraft.client.Minecraft;
 
 public class Label extends Control {
     private String text;
 
     public Label(int x, int y, String text) {
-        super(MinecraftClient.getInstance().textRenderer.getWidth(text), MinecraftClient.getInstance().textRenderer.fontHeight, x, y);
+        super(Minecraft.getInstance().font.width(text), Minecraft.getInstance().font.lineHeight, x, y);
 
         this.text = text;
     }
 
     @Override
-    public void render(MatrixStack matrices, int mouseX, int mouseY, float delta) {
-        drawStringWithShadow(matrices, MinecraftClient.getInstance().textRenderer, this.text, parentX + x, parentY + y, 0xffffffff);
+    public void render(PoseStack matrices, int mouseX, int mouseY, float delta) {
+        drawString(matrices, Minecraft.getInstance().font, this.text, parentX + x, parentY + y, 0xffffffff);
     }
 
     public void setText(String text) {

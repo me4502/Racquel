@@ -26,7 +26,7 @@ package com.me4502.racquel.plugin.move;
 
 import com.me4502.racquel.plugin.Plugin;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
-import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.Minecraft;
 import org.lwjgl.glfw.GLFW;
 
 public class WallClimb extends Plugin {
@@ -43,16 +43,16 @@ public class WallClimb extends Plugin {
         return GLFW.GLFW_KEY_SLASH;
     }
 
-    public void onTick(MinecraftClient client) {
+    public void onTick(Minecraft client) {
         if (!isEnabled()) {
             return;
         }
 
         if (getPlayer().horizontalCollision) {
-            double xVel = getPlayer().getVelocity().getX();
-            double yVel = getPlayer().isSneaking() ? 0.0 : 0.2;
-            double zVel = getPlayer().getVelocity().getZ();
-            getPlayer().setVelocityClient(xVel, yVel, zVel);
+            double xVel = getPlayer().getDeltaMovement().x();
+            double yVel = getPlayer().isCrouching() ? 0.0 : 0.2;
+            double zVel = getPlayer().getDeltaMovement().z();
+            getPlayer().setDeltaMovement(xVel, yVel, zVel);
         }
     }
 }

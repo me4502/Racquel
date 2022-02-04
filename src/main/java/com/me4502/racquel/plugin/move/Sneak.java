@@ -27,10 +27,10 @@ package com.me4502.racquel.plugin.move;
 import com.me4502.racquel.event.network.PacketSendCallback;
 import com.me4502.racquel.mixin.packet.AccessorClientCommandC2SPacket;
 import com.me4502.racquel.plugin.Plugin;
-import net.minecraft.client.MinecraftClient;
-import net.minecraft.network.Packet;
-import net.minecraft.network.packet.c2s.play.ClientCommandC2SPacket;
-import net.minecraft.util.ActionResult;
+import net.minecraft.client.Minecraft;
+import net.minecraft.network.protocol.Packet;
+import net.minecraft.network.protocol.game.ServerboundPlayerCommandPacket;
+import net.minecraft.world.InteractionResult;
 import org.lwjgl.glfw.GLFW;
 
 public class Sneak extends Plugin {
@@ -46,8 +46,8 @@ public class Sneak extends Plugin {
     public void enable() {
         super.enable();
 
-        MinecraftClient.getInstance().getNetworkHandler().getConnection().send(
-                new ClientCommandC2SPacket(getPlayer(), ClientCommandC2SPacket.Mode.PRESS_SHIFT_KEY)
+        Minecraft.getInstance().getConnection().getConnection().send(
+                new ServerboundPlayerCommandPacket(getPlayer(), ServerboundPlayerCommandPacket.Action.PRESS_SHIFT_KEY)
         );
     }
 
@@ -56,18 +56,18 @@ public class Sneak extends Plugin {
         super.disable();
     }
 
-    public ActionResult onPacketSend(Packet<?> packet) {
+    public InteractionResult onPacketSend(Packet<?> packet) {
         if (!isEnabled()) {
-            return ActionResult.PASS;
+            return InteractionResult.PASS;
         }
 
-        if (packet instanceof ClientCommandC2SPacket) {
-            ClientCommandC2SPacket pack = (ClientCommandC2SPacket) packet;
-            if (pack.getMode() == ClientCommandC2SPacket.Mode.RELEASE_SHIFT_KEY)
-                ((AccessorClientCommandC2SPacket) pack).setMode(ClientCommandC2SPacket.Mode.PRESS_SHIFT_KEY);
+        if (packet instanceof ServerboundPlayerCommandPacket) {
+            ServerboundPlayerCommandPacket pack = (ServerboundPlayerCommandPacket) packet;
+            if (pack.getAction() == ServerboundPlayerCommandPacket.Action.RELEASE_SHIFT_KEY)
+                ((AccessorClientCommandC2SPacket) pack).setAction(ServerboundPlayerCommandPacket.Action.PRESS_SHIFT_KEY);
         }
 
-        return ActionResult.PASS;
+        return InteractionResult.PASS;
     }
 
     @Override

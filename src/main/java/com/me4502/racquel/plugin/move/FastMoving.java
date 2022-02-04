@@ -26,8 +26,8 @@ package com.me4502.racquel.plugin.move;
 
 import com.me4502.racquel.plugin.Plugin;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
-import net.minecraft.client.MinecraftClient;
-import net.minecraft.entity.attribute.EntityAttributes;
+import net.minecraft.client.Minecraft;
+import net.minecraft.world.entity.ai.attributes.Attributes;
 import org.lwjgl.glfw.GLFW;
 
 public class FastMoving extends Plugin {
@@ -57,10 +57,10 @@ public class FastMoving extends Plugin {
     public void enable() {
         super.enable();
 
-        oldWalk = getPlayer().getAttributeInstance(EntityAttributes.GENERIC_MOVEMENT_SPEED).getBaseValue();
+        oldWalk = getPlayer().getAttribute(Attributes.MOVEMENT_SPEED).getBaseValue();
         oldFly = BASE_FLY_SPEED;
 
-        getPlayer().getAttributeInstance(EntityAttributes.GENERIC_MOVEMENT_SPEED).setBaseValue(speed);
+        getPlayer().getAttribute(Attributes.MOVEMENT_SPEED).setBaseValue(speed);
         getPlayer().flyingSpeed = speed;
     }
 
@@ -68,16 +68,16 @@ public class FastMoving extends Plugin {
     public void disable() {
         super.disable();
 
-        getPlayer().getAttributeInstance(EntityAttributes.GENERIC_MOVEMENT_SPEED).setBaseValue(oldWalk);
+        getPlayer().getAttribute(Attributes.MOVEMENT_SPEED).setBaseValue(oldWalk);
         getPlayer().flyingSpeed = oldFly;
     }
 
-    public void onTick(MinecraftClient client) {
+    public void onTick(Minecraft client) {
         if (!isEnabled()) {
             return;
         }
 
-        getPlayer().getAttributeInstance(EntityAttributes.GENERIC_MOVEMENT_SPEED).setBaseValue(speed);
+        getPlayer().getAttribute(Attributes.MOVEMENT_SPEED).setBaseValue(speed);
         getPlayer().flyingSpeed = speed;
     }
 }
