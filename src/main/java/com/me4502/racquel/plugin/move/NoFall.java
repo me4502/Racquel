@@ -25,11 +25,11 @@
 package com.me4502.racquel.plugin.move;
 
 import com.me4502.racquel.event.network.PacketSendCallback;
-import com.me4502.racquel.mixin.packet.AccessorPlayerMoveC2SPacket;
+import com.me4502.racquel.mixin.packet.AccessorServerboundMovePlayerPacket;
 import com.me4502.racquel.plugin.Plugin;
-import net.minecraft.network.Packet;
-import net.minecraft.network.packet.c2s.play.PlayerMoveC2SPacket;
-import net.minecraft.util.ActionResult;
+import net.minecraft.network.protocol.Packet;
+import net.minecraft.network.protocol.game.ServerboundMovePlayerPacket;
+import net.minecraft.world.InteractionResult;
 import org.lwjgl.glfw.GLFW;
 
 /**
@@ -63,14 +63,14 @@ public class NoFall extends Plugin {
         return GLFW.GLFW_KEY_N;
     }
 
-    public ActionResult onSend(Packet<?> packet) {
+    public InteractionResult onSend(Packet<?> packet) {
         if (!isEnabled()) {
-            return ActionResult.PASS;
+            return InteractionResult.PASS;
         }
 
-        if (packet instanceof PlayerMoveC2SPacket) {
-            ((AccessorPlayerMoveC2SPacket) packet).setOnGround(true);
+        if (packet instanceof ServerboundMovePlayerPacket) {
+            ((AccessorServerboundMovePlayerPacket) packet).setOnGround(true);
         }
-        return ActionResult.PASS;
+        return InteractionResult.PASS;
     }
 }

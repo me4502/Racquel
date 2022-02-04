@@ -38,15 +38,15 @@ import com.me4502.racquel.plugin.move.Sneak;
 import com.me4502.racquel.plugin.move.WallClimb;
 import com.me4502.racquel.ui.panel.Panel;
 import com.me4502.racquel.ui.screen.ConsoleScreen;
+import com.mojang.blaze3d.platform.InputConstants;
+import com.mojang.blaze3d.vertex.PoseStack;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientLifecycleEvents;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
-import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.gui.hud.InGameHud;
-import net.minecraft.client.option.KeyBinding;
-import net.minecraft.client.util.InputUtil;
-import net.minecraft.client.util.math.MatrixStack;
+import net.minecraft.client.KeyMapping;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.Gui;
 import org.lwjgl.glfw.GLFW;
 
 import java.util.ArrayList;
@@ -61,7 +61,7 @@ public class Racquel implements ModInitializer {
 
 	private final List<Plugin> plugins = new ArrayList<>();
 
-	private KeyBinding consoleKeybind;
+	private KeyMapping consoleKeybind;
 	private ConsoleScreen consoleScreen;
 
 	public static int lastPacketTime = 0;
@@ -72,7 +72,7 @@ public class Racquel implements ModInitializer {
 
 	@Override
 	public void onInitialize() {
-		consoleKeybind = new KeyBinding(IDENTIFIER_ID + ".console", InputUtil.Type.KEYSYM, GLFW.GLFW_KEY_GRAVE_ACCENT, KEYBINDING_CATEGORY);
+		consoleKeybind = new KeyMapping(IDENTIFIER_ID + ".console", InputConstants.Type.KEYSYM, GLFW.GLFW_KEY_GRAVE_ACCENT, KEYBINDING_CATEGORY);
 		KeyBindingHelper.registerKeyBinding(consoleKeybind);
 
 		System.out.println("Registering plugins");
@@ -86,7 +86,7 @@ public class Racquel implements ModInitializer {
 		plugins.forEach(Plugin::init);
 	}
 
-	public void clientStarted(MinecraftClient minecraftClient) {
+	public void clientStarted(Minecraft minecraftClient) {
 		consoleScreen = new ConsoleScreen();
 	}
 
@@ -103,22 +103,22 @@ public class Racquel implements ModInitializer {
 		plugins.add(new Overclock());
 	}
 
-	public void onTick(MinecraftClient client) {
+	public void onTick(Minecraft client) {
 		// Handle Keybind changes.
 		for (Plugin plugin : plugins) {
-			if (plugin.getKeybind().isPresent() && plugin.getKeybind().get().wasPressed()) {
+			if (plugin.getKeybind().isPresent() && plugin.getKeybind().get().consumeClick()) {
 				plugin.toggle();
 			}
 		}
-		if (consoleKeybind.wasPressed()) {
-			if (MinecraftClient.getInstance().currentScreen == consoleScreen) {
-				MinecraftClient.getInstance().setScreen(null);
+		if (consoleKeybind.consumeClick()) {
+			if (Minecraft.getInstance().screen == consoleScreen) {
+				Minecraft.getInstance().setScreen(null);
 			} else {
-				MinecraftClient.getInstance().setScreen(consoleScreen);
+				Minecraft.getInstance().setScreen(consoleScreen);
 			}
 		}
 
-		if (MinecraftClient.getInstance().currentScreen == null && consoleScreen != null) {
+		if (Minecraft.getInstance().screen == null && consoleScreen != null) {
 			for (Panel panel : consoleScreen.getPanels()) {
 				if (panel.isPinned()) {
 					panel.tick();
@@ -129,8 +129,8 @@ public class Racquel implements ModInitializer {
 		lastPacketTime ++;
 	}
 
-	public void onPostRender(MatrixStack stack, InGameHud inGameHud) {
-		if (consoleScreen != null && MinecraftClient.getInstance().currentScreen != consoleScreen) {
+	public void onPostRender(PoseStack stack, Gui gui) {
+		if (consoleScreen != null && Minecraft.getInstance().screen != consoleScreen) {
 			for (Panel panel : consoleScreen.getPanels()) {
 				if (panel.isPinned()) {
 					panel.render(stack, 0, 0, 0);

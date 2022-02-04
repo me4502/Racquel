@@ -24,10 +24,10 @@
 
 package com.me4502.racquel.plugin.misc;
 
-import com.me4502.racquel.mixin.AccessorMinecraftClient;
+import com.me4502.racquel.mixin.AccessorMinecraft;
 import com.me4502.racquel.plugin.Plugin;
-import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.render.RenderTickCounter;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.Timer;
 import org.lwjgl.glfw.GLFW;
 
 public class Overclock extends Plugin {
@@ -40,13 +40,13 @@ public class Overclock extends Plugin {
     @Override
     public void enable() {
         super.enable();
-        ((AccessorMinecraftClient) MinecraftClient.getInstance()).setRenderTickCounter(new RenderTickCounter(20f * 6.67f, 0));
+        ((AccessorMinecraft) Minecraft.getInstance()).setTimer(new Timer(20f * 6.67f, 0));
     }
 
     @Override
     public void disable() {
         super.disable();
-        ((AccessorMinecraftClient) MinecraftClient.getInstance()).setRenderTickCounter(new RenderTickCounter(20, 0));
+        ((AccessorMinecraft) Minecraft.getInstance()).setTimer(new Timer(20, 0));
     }
 
     @Override

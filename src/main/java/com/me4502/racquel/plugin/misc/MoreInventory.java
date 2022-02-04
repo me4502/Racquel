@@ -26,9 +26,9 @@ package com.me4502.racquel.plugin.misc;
 
 import com.me4502.racquel.event.network.PacketSendCallback;
 import com.me4502.racquel.plugin.Plugin;
-import net.minecraft.network.Packet;
-import net.minecraft.network.packet.c2s.play.CloseHandledScreenC2SPacket;
-import net.minecraft.util.ActionResult;
+import net.minecraft.network.protocol.Packet;
+import net.minecraft.network.protocol.game.ServerboundContainerClosePacket;
+import net.minecraft.world.InteractionResult;
 import org.lwjgl.glfw.GLFW;
 
 /**
@@ -64,14 +64,14 @@ public class MoreInventory extends Plugin {
         return GLFW.GLFW_KEY_K;
     }
 
-    public ActionResult onSend(Packet<?> packet) {
+    public InteractionResult onSend(Packet<?> packet) {
         if (!isEnabled()) {
-            return ActionResult.PASS;
+            return InteractionResult.PASS;
         }
 
-        if (packet instanceof CloseHandledScreenC2SPacket) {
-            return ActionResult.FAIL;
+        if (packet instanceof ServerboundContainerClosePacket) {
+            return InteractionResult.FAIL;
         }
-        return ActionResult.PASS;
+        return InteractionResult.PASS;
     }
 }

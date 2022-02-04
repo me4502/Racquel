@@ -26,9 +26,9 @@ package com.me4502.racquel.plugin.combat;
 
 import com.me4502.racquel.event.network.PacketHandleCallback;
 import com.me4502.racquel.plugin.Plugin;
-import net.minecraft.network.packet.s2c.play.EntityVelocityUpdateS2CPacket;
-import net.minecraft.network.Packet;
-import net.minecraft.util.ActionResult;
+import net.minecraft.network.protocol.Packet;
+import net.minecraft.network.protocol.game.ClientboundSetEntityMotionPacket;
+import net.minecraft.world.InteractionResult;
 import org.lwjgl.glfw.GLFW;
 
 /**
@@ -64,16 +64,16 @@ public class NoKnockback extends Plugin {
         return GLFW.GLFW_KEY_K;
     }
 
-    public ActionResult onReceive(Packet<?> packet) {
+    public InteractionResult onReceive(Packet<?> packet) {
         if (!isEnabled()) {
-            return ActionResult.PASS;
+            return InteractionResult.PASS;
         }
 
-        if (packet instanceof EntityVelocityUpdateS2CPacket) {
-            if (((EntityVelocityUpdateS2CPacket) packet).getId() == getPlayer().getId()) {
-                return ActionResult.FAIL;
+        if (packet instanceof ClientboundSetEntityMotionPacket) {
+            if (((ClientboundSetEntityMotionPacket) packet).getId() == getPlayer().getId()) {
+                return InteractionResult.FAIL;
             }
         }
-        return ActionResult.PASS;
+        return InteractionResult.PASS;
     }
 }

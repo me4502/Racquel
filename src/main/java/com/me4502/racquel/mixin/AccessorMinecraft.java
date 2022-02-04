@@ -24,17 +24,17 @@
 
 package com.me4502.racquel.mixin;
 
-import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.render.RenderTickCounter;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.Timer;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.gen.Accessor;
 
-@Mixin(MinecraftClient.class)
-public interface AccessorMinecraftClient {
+@Mixin(Minecraft.class)
+public interface AccessorMinecraft {
 
-    @Accessor("renderTickCounter")
-    void setRenderTickCounter(RenderTickCounter renderTickCounter);
+    @Accessor("timer")
+    void setTimer(Timer timer);
 
-    @Accessor("renderTickCounter")
-    RenderTickCounter getRenderTickCounter();
+    @Accessor("timer")
+    Timer getTimer();
 }

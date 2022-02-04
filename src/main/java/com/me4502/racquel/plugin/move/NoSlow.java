@@ -27,8 +27,8 @@ package com.me4502.racquel.plugin.move;
 import com.me4502.racquel.mixin.AccessorEntity;
 import com.me4502.racquel.plugin.Plugin;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
-import net.minecraft.client.MinecraftClient;
-import net.minecraft.util.math.Vec3d;
+import net.minecraft.client.Minecraft;
+import net.minecraft.world.phys.Vec3;
 import org.lwjgl.glfw.GLFW;
 
 public class NoSlow extends Plugin {
@@ -40,12 +40,12 @@ public class NoSlow extends Plugin {
         ClientTickEvents.END_CLIENT_TICK.register(this::onTick);
     }
 
-    public void onTick(MinecraftClient client) {
+    public void onTick(Minecraft client) {
         if (!isEnabled()) {
             return;
         }
 
-        ((AccessorEntity) getPlayer()).setMovementMultiplier(Vec3d.ZERO);
+        ((AccessorEntity) getPlayer()).setDeltaMovement(Vec3.ZERO);
     }
 
     @Override

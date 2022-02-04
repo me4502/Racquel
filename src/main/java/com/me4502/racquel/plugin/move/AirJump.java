@@ -26,7 +26,7 @@ package com.me4502.racquel.plugin.move;
 
 import com.me4502.racquel.plugin.Plugin;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
-import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.Minecraft;
 import org.lwjgl.glfw.GLFW;
 
 /**
@@ -52,7 +52,7 @@ public class AirJump extends Plugin {
         ClientTickEvents.END_CLIENT_TICK.register(this::onTick);
     }
 
-    public void onTick(MinecraftClient client) {
+    public void onTick(Minecraft client) {
         if (!isEnabled()) {
             return;
         }

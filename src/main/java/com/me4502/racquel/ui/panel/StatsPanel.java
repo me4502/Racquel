@@ -25,10 +25,10 @@
 package com.me4502.racquel.ui.panel;
 
 import com.me4502.racquel.Racquel;
-import com.me4502.racquel.mixin.AccessorMinecraftClient;
+import com.me4502.racquel.mixin.AccessorMinecraft;
 import com.me4502.racquel.ui.control.Label;
-import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.network.ClientPlayNetworkHandler;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.multiplayer.ClientPacketListener;
 
 public class StatsPanel extends Panel {
     private final Label lastPacketLabel;
@@ -44,10 +44,10 @@ public class StatsPanel extends Panel {
     @Override
     public void tick() {
         if (isOpen()) {
-            lastPacketLabel.setText("Last Packet: " + (Racquel.lastPacketTime / ((AccessorMinecraftClient) MinecraftClient.getInstance()).getRenderTickCounter().tickTime) * 1000 + "ms");
-            ClientPlayNetworkHandler connection = MinecraftClient.getInstance().getNetworkHandler();
+            lastPacketLabel.setText("Last Packet: " + (Racquel.lastPacketTime / ((AccessorMinecraft) Minecraft.getInstance()).getTimer().msPerTick) * 1000 + "ms");
+            ClientPacketListener connection = Minecraft.getInstance().getConnection();
             if (connection != null) {
-                latencyLabel.setText("Latency: " + connection.getPlayerListEntry(connection.getProfile().getId()).getLatency() + "ms");
+                latencyLabel.setText("Latency: " + connection.getPlayerInfo(connection.getLocalGameProfile().getId()).getLatency() + "ms");
             } else {
                 latencyLabel.setText("Latency: No Server");
             }

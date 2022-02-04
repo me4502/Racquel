@@ -28,10 +28,10 @@ import com.google.common.collect.Lists;
 import com.me4502.racquel.ui.panel.Panel;
 import com.me4502.racquel.ui.panel.PluginsPanel;
 import com.me4502.racquel.ui.panel.StatsPanel;
-import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.gui.screen.Screen;
-import net.minecraft.client.util.NarratorManager;
-import net.minecraft.client.util.math.MatrixStack;
+import com.mojang.blaze3d.vertex.PoseStack;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.chat.NarratorChatListener;
+import net.minecraft.client.gui.screens.Screen;
 
 import java.util.List;
 
@@ -40,16 +40,16 @@ public class ConsoleScreen extends Screen {
     private final List<Panel> panels = Lists.newArrayList();
 
     public ConsoleScreen() {
-        super(NarratorManager.EMPTY);
+        super(NarratorChatListener.NO_TITLE);
 
-        int textHeight = MinecraftClient.getInstance().textRenderer.fontHeight;
+        int textHeight = Minecraft.getInstance().font.lineHeight;
 
         panels.add(new PluginsPanel(0, 0, 100, textHeight * 10));
         panels.add(new StatsPanel(0, textHeight * 10 + 10, 100, textHeight * 3));
     }
 
     @Override
-    public void render(MatrixStack matrices, int mouseX, int mouseY, float delta) {
+    public void render(PoseStack matrices, int mouseX, int mouseY, float delta) {
         super.render(matrices, mouseX, mouseY, delta);
 
         for (Panel panel : panels) {

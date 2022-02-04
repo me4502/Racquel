@@ -26,14 +26,14 @@ package com.me4502.racquel.plugin.move;
 
 import com.me4502.racquel.event.network.PacketSendCallback;
 import com.me4502.racquel.plugin.Plugin;
-import net.minecraft.network.Packet;
-import net.minecraft.network.packet.c2s.play.PlayerActionC2SPacket;
-import net.minecraft.network.packet.c2s.play.PlayerInputC2SPacket;
-import net.minecraft.network.packet.c2s.play.PlayerInteractBlockC2SPacket;
-import net.minecraft.network.packet.c2s.play.PlayerInteractEntityC2SPacket;
-import net.minecraft.network.packet.c2s.play.PlayerInteractItemC2SPacket;
-import net.minecraft.network.packet.c2s.play.PlayerMoveC2SPacket;
-import net.minecraft.util.ActionResult;
+import net.minecraft.network.protocol.Packet;
+import net.minecraft.network.protocol.game.ServerboundInteractPacket;
+import net.minecraft.network.protocol.game.ServerboundMovePlayerPacket;
+import net.minecraft.network.protocol.game.ServerboundPlayerActionPacket;
+import net.minecraft.network.protocol.game.ServerboundPlayerInputPacket;
+import net.minecraft.network.protocol.game.ServerboundUseItemOnPacket;
+import net.minecraft.network.protocol.game.ServerboundUseItemPacket;
+import net.minecraft.world.InteractionResult;
 import org.lwjgl.glfw.GLFW;
 
 import java.util.ArrayDeque;
@@ -82,30 +82,30 @@ public class Blink extends Plugin {
 
         Packet<?> pack;
         while ((pack = packetQueue.poll()) != null) {
-            getPlayer().networkHandler.getConnection().send(pack, null);
+            getPlayer().connection.getConnection().send(pack, null);
         }
     }
 
-    public ActionResult onPacketSend(Packet<?> packet) {
+    public InteractionResult onPacketSend(Packet<?> packet) {
         if (!isEnabled()) {
-            return ActionResult.PASS;
+            return InteractionResult.PASS;
         }
 
         if (isPacketDelayed(packet)) {
             packetQueue.add(packet);
-            return ActionResult.FAIL;
+            return InteractionResult.FAIL;
         }
 
-        return ActionResult.PASS;
+        return InteractionResult.PASS;
     }
 
     private static boolean isPacketDelayed(Packet<?> packet) {
-        return packet instanceof PlayerMoveC2SPacket
-                || packet instanceof PlayerInteractBlockC2SPacket
-                || packet instanceof PlayerInteractItemC2SPacket
-                || packet instanceof PlayerInteractEntityC2SPacket
-                || packet instanceof PlayerActionC2SPacket
-                || packet instanceof PlayerInputC2SPacket;
+        return packet instanceof ServerboundMovePlayerPacket
+                || packet instanceof ServerboundUseItemOnPacket
+                || packet instanceof ServerboundUseItemPacket
+                || packet instanceof ServerboundInteractPacket
+                || packet instanceof ServerboundPlayerActionPacket
+                || packet instanceof ServerboundPlayerInputPacket;
     }
 
     @Override
