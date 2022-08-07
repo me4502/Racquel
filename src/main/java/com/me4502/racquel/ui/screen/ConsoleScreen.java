@@ -30,8 +30,8 @@ import com.me4502.racquel.ui.panel.PluginsPanel;
 import com.me4502.racquel.ui.panel.StatsPanel;
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.chat.NarratorChatListener;
 import net.minecraft.client.gui.screens.Screen;
+import net.minecraft.network.chat.CommonComponents;
 
 import java.util.List;
 
@@ -40,7 +40,7 @@ public class ConsoleScreen extends Screen {
     private final List<Panel> panels = Lists.newArrayList();
 
     public ConsoleScreen() {
-        super(NarratorChatListener.NO_TITLE);
+        super(CommonComponents.EMPTY);
 
         int textHeight = Minecraft.getInstance().font.lineHeight;
 

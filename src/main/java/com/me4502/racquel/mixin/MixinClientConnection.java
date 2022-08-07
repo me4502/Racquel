@@ -27,10 +27,9 @@ package com.me4502.racquel.mixin;
 import com.me4502.racquel.Racquel;
 import com.me4502.racquel.event.network.PacketHandleCallback;
 import com.me4502.racquel.event.network.PacketSendCallback;
-import io.netty.util.concurrent.Future;
-import io.netty.util.concurrent.GenericFutureListener;
 import net.minecraft.network.Connection;
 import net.minecraft.network.PacketListener;
+import net.minecraft.network.PacketSendListener;
 import net.minecraft.network.protocol.Packet;
 import net.minecraft.world.InteractionResult;
 import org.spongepowered.asm.mixin.Mixin;
@@ -50,9 +49,9 @@ public class MixinClientConnection {
         }
     }
 
-    @Inject(method = "send(Lnet/minecraft/network/protocol/Packet;Lio/netty/util/concurrent/GenericFutureListener;)V",
+    @Inject(method = "send(Lnet/minecraft/network/protocol/Packet;Lnet/minecraft/network/PacketSendListener;)V",
             at = @At("HEAD"), cancellable = true)
-    private void onPacketSend(Packet<?> packet_1, GenericFutureListener<? extends Future<? super Void>> genericFutureListener_1,
+    private void onPacketSend(Packet<?> packet_1, PacketSendListener packetSendListener_1,
             CallbackInfo ci) {
         if (PacketSendCallback.EVENT.invoker().send(packet_1) != InteractionResult.PASS) {
             ci.cancel();
