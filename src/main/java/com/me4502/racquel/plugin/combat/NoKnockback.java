@@ -69,8 +69,8 @@ public class NoKnockback extends Plugin {
             return InteractionResult.PASS;
         }
 
-        if (packet instanceof ClientboundSetEntityMotionPacket) {
-            if (((ClientboundSetEntityMotionPacket) packet).getId() == getPlayer().getId()) {
+        if (packet instanceof ClientboundSetEntityMotionPacket pack) {
+            if (pack.getId() == getPlayer().getId()) {
                 return InteractionResult.FAIL;
             }
         }

@@ -25,10 +25,10 @@
 package com.me4502.racquel.ui.panel;
 
 import com.google.common.collect.Lists;
+import com.me4502.racquel.ui.Widget;
 import com.me4502.racquel.ui.control.Control;
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.components.Widget;
 import net.minecraft.client.gui.components.events.AbstractContainerEventHandler;
 import net.minecraft.client.gui.components.events.GuiEventListener;
 

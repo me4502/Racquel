@@ -22,45 +22,11 @@
  * SOFTWARE.
  */
 
-package com.me4502.racquel.ui.control;
+package com.me4502.racquel.ui;
 
-import com.me4502.racquel.ui.Widget;
-import net.minecraft.client.gui.GuiComponent;
-import net.minecraft.client.gui.components.events.GuiEventListener;
+import com.mojang.blaze3d.vertex.PoseStack;
 
-public abstract class Control extends GuiComponent implements Widget, GuiEventListener {
-    protected int x;
-    protected int y;
-    protected int width;
-    protected int height;
+public interface Widget {
 
-    public Control(int width, int height, int x, int y) {
-        this.x = x;
-        this.y = y;
-        this.width = width;
-        this.height = height;
-    }
-
-    protected int parentX, parentY;
-
-    public int getX() {
-        return this.x;
-    }
-
-    public int getY() {
-        return this.y;
-    }
-
-    public int getWidth() {
-        return this.width;
-    }
-
-    public int getHeight() {
-        return this.height;
-    }
-
-    public void updateParentOffsets(int x, int y) {
-        this.parentX = x;
-        this.parentY = y;
-    }
+    void render(PoseStack matrices, int mouseX, int mouseY, float delta);
 }

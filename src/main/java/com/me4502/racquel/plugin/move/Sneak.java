@@ -61,10 +61,10 @@ public class Sneak extends Plugin {
             return InteractionResult.PASS;
         }
 
-        if (packet instanceof ServerboundPlayerCommandPacket) {
-            ServerboundPlayerCommandPacket pack = (ServerboundPlayerCommandPacket) packet;
-            if (pack.getAction() == ServerboundPlayerCommandPacket.Action.RELEASE_SHIFT_KEY)
+        if (packet instanceof ServerboundPlayerCommandPacket pack) {
+            if (pack.getAction() == ServerboundPlayerCommandPacket.Action.RELEASE_SHIFT_KEY) {
                 ((AccessorClientCommandC2SPacket) pack).setAction(ServerboundPlayerCommandPacket.Action.PRESS_SHIFT_KEY);
+            }
         }
 
         return InteractionResult.PASS;
