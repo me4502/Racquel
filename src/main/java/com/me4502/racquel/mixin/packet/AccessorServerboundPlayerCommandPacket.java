@@ -30,7 +30,7 @@ import org.spongepowered.asm.mixin.Mutable;
 import org.spongepowered.asm.mixin.gen.Accessor;
 
 @Mixin(ServerboundPlayerCommandPacket.class)
-public interface AccessorClientCommandC2SPacket {
+public interface AccessorServerboundPlayerCommandPacket {
 
     @Mutable
     @Accessor("action")

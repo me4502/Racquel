@@ -8,7 +8,7 @@
     "MixinGui",
     "MixinClientConnection",
     "packet.AccessorServerboundMovePlayerPacket",
-    "packet.AccessorClientCommandC2SPacket",
+    "packet.AccessorServerboundPlayerCommandPacket",
     "AccessorEntity",
     "AccessorMinecraft"
   ],

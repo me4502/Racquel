@@ -25,7 +25,7 @@
 package com.me4502.racquel.plugin.move;
 
 import com.me4502.racquel.event.network.PacketSendCallback;
-import com.me4502.racquel.mixin.packet.AccessorClientCommandC2SPacket;
+import com.me4502.racquel.mixin.packet.AccessorServerboundPlayerCommandPacket;
 import com.me4502.racquel.plugin.Plugin;
 import net.minecraft.client.Minecraft;
 import net.minecraft.network.protocol.Packet;
@@ -63,7 +63,7 @@ public class Sneak extends Plugin {
 
         if (packet instanceof ServerboundPlayerCommandPacket pack) {
             if (pack.getAction() == ServerboundPlayerCommandPacket.Action.RELEASE_SHIFT_KEY) {
-                ((AccessorClientCommandC2SPacket) pack).setAction(ServerboundPlayerCommandPacket.Action.PRESS_SHIFT_KEY);
+                ((AccessorServerboundPlayerCommandPacket) pack).setAction(ServerboundPlayerCommandPacket.Action.PRESS_SHIFT_KEY);
             }
         }
 
