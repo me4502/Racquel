@@ -31,15 +31,11 @@ import net.minecraft.world.entity.ai.attributes.Attributes;
 import org.lwjgl.glfw.GLFW;
 
 public class FastMoving extends Plugin {
-
-    // The original value is inlined by the compiler
-    private final static float BASE_FLY_SPEED = 0.02f;
-
     private final float speed = 0.6f;
 
     // Store prior values to reset
     private double oldWalk;
-    private float oldFly;
+    private double oldFly;
 
     @Override
     public int getKeyCode() {
@@ -58,10 +54,10 @@ public class FastMoving extends Plugin {
         super.enable();
 
         oldWalk = getPlayer().getAttribute(Attributes.MOVEMENT_SPEED).getBaseValue();
-        oldFly = BASE_FLY_SPEED;
+        oldFly = getPlayer().getAttribute(Attributes.FLYING_SPEED).getBaseValue();
 
         getPlayer().getAttribute(Attributes.MOVEMENT_SPEED).setBaseValue(speed);
-        getPlayer().flyingSpeed = speed;
+        getPlayer().getAttribute(Attributes.FLYING_SPEED).setBaseValue(speed);
     }
 
     @Override
@@ -69,7 +65,7 @@ public class FastMoving extends Plugin {
         super.disable();
 
         getPlayer().getAttribute(Attributes.MOVEMENT_SPEED).setBaseValue(oldWalk);
-        getPlayer().flyingSpeed = oldFly;
+        getPlayer().getAttribute(Attributes.FLYING_SPEED).setBaseValue(oldFly);
     }
 
     public void onTick(Minecraft client) {
@@ -78,6 +74,6 @@ public class FastMoving extends Plugin {
         }
 
         getPlayer().getAttribute(Attributes.MOVEMENT_SPEED).setBaseValue(speed);
-        getPlayer().flyingSpeed = speed;
+        getPlayer().getAttribute(Attributes.FLYING_SPEED).setBaseValue(speed);
     }
 }

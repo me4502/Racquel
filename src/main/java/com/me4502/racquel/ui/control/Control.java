@@ -33,6 +33,7 @@ public abstract class Control extends GuiComponent implements Widget, GuiEventLi
     protected int y;
     protected int width;
     protected int height;
+    protected boolean focused;
 
     public Control(int width, int height, int x, int y) {
         this.x = x;
@@ -62,5 +63,15 @@ public abstract class Control extends GuiComponent implements Widget, GuiEventLi
     public void updateParentOffsets(int x, int y) {
         this.parentX = x;
         this.parentY = y;
+    }
+
+    @Override
+    public boolean isFocused() {
+        return focused;
+    }
+
+    @Override
+    public void setFocused(boolean focused) {
+        this.focused = focused;
     }
 }
