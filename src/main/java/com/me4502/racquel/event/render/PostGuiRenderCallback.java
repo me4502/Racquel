@@ -24,20 +24,20 @@
 
 package com.me4502.racquel.event.render;
 
-import com.mojang.blaze3d.vertex.PoseStack;
 import net.fabricmc.fabric.api.event.Event;
 import net.fabricmc.fabric.api.event.EventFactory;
 import net.minecraft.client.gui.Gui;
+import net.minecraft.client.gui.GuiGraphics;
 
 public interface PostGuiRenderCallback {
 
     Event<PostGuiRenderCallback> EVENT = EventFactory.createArrayBacked(PostGuiRenderCallback.class,
-            (listeners) -> (matrixStack, inGameHud) -> {
+            (listeners) -> (guiGraphics, inGameHud) -> {
                 for (PostGuiRenderCallback event : listeners) {
-                    event.postRender(matrixStack, inGameHud);
+                    event.postRender(guiGraphics, inGameHud);
                 }
             });
 
-    void postRender(PoseStack poseStack, Gui inGameHud);
+    void postRender(GuiGraphics guiGraphics, Gui inGameHud);
 
 }

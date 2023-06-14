@@ -30,6 +30,7 @@ import com.me4502.racquel.ui.panel.PluginsPanel;
 import com.me4502.racquel.ui.panel.StatsPanel;
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.CommonComponents;
 
@@ -49,11 +50,11 @@ public class ConsoleScreen extends Screen {
     }
 
     @Override
-    public void render(PoseStack matrices, int mouseX, int mouseY, float delta) {
-        super.render(matrices, mouseX, mouseY, delta);
+    public void render(GuiGraphics guiGraphics, int mouseX, int mouseY, float delta) {
+        super.render(guiGraphics, mouseX, mouseY, delta);
 
         for (Panel panel : panels) {
-            panel.render(matrices, mouseX, mouseY, delta);
+            panel.render(guiGraphics, mouseX, mouseY, delta);
         }
     }
 

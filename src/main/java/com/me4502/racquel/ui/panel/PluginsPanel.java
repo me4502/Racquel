@@ -26,8 +26,8 @@ package com.me4502.racquel.ui.panel;
 
 import com.me4502.racquel.Racquel;
 import com.me4502.racquel.plugin.Plugin;
-import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.GuiGraphics;
 
 import static com.me4502.racquel.util.RenderUtils.rgbToInt;
 
@@ -40,12 +40,11 @@ public class PluginsPanel extends Panel {
     }
 
     @Override
-    public void renderContents(PoseStack matrices, int mouseX, int mouseY, float delta) {
+    public void renderContents(GuiGraphics guiGraphics, int mouseX, int mouseY, float delta) {
         int renderIndex = 0;
         for (Plugin plugin : Racquel.INSTANCE.getPlugins()) {
             if (plugin.isEnabled()) {
-                Minecraft.getInstance().font.draw(
-                    matrices,
+                guiGraphics.drawString(Minecraft.getInstance().font,
                     plugin.getName(),
                     x + 6,
                     y + (renderIndex++ * 10) + TOP_HEIGHT,

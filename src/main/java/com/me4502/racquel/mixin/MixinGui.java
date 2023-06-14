@@ -25,8 +25,8 @@
 package com.me4502.racquel.mixin;
 
 import com.me4502.racquel.event.render.PostGuiRenderCallback;
-import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.gui.Gui;
+import net.minecraft.client.gui.GuiGraphics;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -36,7 +36,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 public class MixinGui {
 
     @Inject(method = "render", at = @At(value = "TAIL"))
-    public void onPostHudRender(PoseStack poseStack, float delta, CallbackInfo ci) {
-        PostGuiRenderCallback.EVENT.invoker().postRender(poseStack, (Gui) (Object) this);
+    public void onPostHudRender(GuiGraphics guiGraphics, float delta, CallbackInfo ci) {
+        PostGuiRenderCallback.EVENT.invoker().postRender(guiGraphics, (Gui) (Object) this);
     }
 }

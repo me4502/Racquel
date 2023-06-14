@@ -24,8 +24,8 @@
 
 package com.me4502.racquel.ui.control;
 
-import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.GuiGraphics;
 
 public class Label extends Control {
     private String text;
@@ -37,8 +37,8 @@ public class Label extends Control {
     }
 
     @Override
-    public void render(PoseStack matrices, int mouseX, int mouseY, float delta) {
-        drawString(matrices, Minecraft.getInstance().font, this.text, parentX + x, parentY + y, 0xffffffff);
+    public void render(GuiGraphics guiGraphics, int mouseX, int mouseY, float delta) {
+        guiGraphics.drawString(Minecraft.getInstance().font, this.text, parentX + x, parentY + y, 0xffffffff);
     }
 
     public void setText(String text) {

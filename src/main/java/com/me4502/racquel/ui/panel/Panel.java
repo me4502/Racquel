@@ -29,6 +29,7 @@ import com.me4502.racquel.ui.Widget;
 import com.me4502.racquel.ui.control.Control;
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.events.AbstractContainerEventHandler;
 import net.minecraft.client.gui.components.events.GuiEventListener;
 
@@ -136,23 +137,23 @@ public abstract class Panel extends AbstractContainerEventHandler implements Wid
     }
 
     @Override
-    public final void render(PoseStack matrices, int mouseX, int mouseY, float delta) {
+    public final void render(GuiGraphics guiGraphics, int mouseX, int mouseY, float delta) {
         // Top bar
-        fill(matrices, x, y, x + width, y + TOP_HEIGHT, 0x88444444);
-        drawString(matrices, Minecraft.getInstance().font, name, x + 2, y + 2, 0xFFFFFFFF);
-        drawString(matrices, Minecraft.getInstance().font, pinned ? "-" : "+", x + width - 8, y + 2, 0xFFFFFFFF);
+        guiGraphics.fill(x, y, x + width, y + TOP_HEIGHT, 0x88444444);
+        guiGraphics.drawString(Minecraft.getInstance().font, name, x + 2, y + 2, 0xFFFFFFFF);
+        guiGraphics.drawString(Minecraft.getInstance().font, pinned ? "-" : "+", x + width - 8, y + 2, 0xFFFFFFFF);
 
         // Contents
         if (open) {
-            fill(matrices, x, y + TOP_HEIGHT, x + width, y + height, 0x88444444);
-            renderContents(matrices, mouseX, mouseY, delta);
+            guiGraphics.fill(x, y + TOP_HEIGHT, x + width, y + height, 0x88444444);
+            renderContents(guiGraphics, mouseX, mouseY, delta);
         }
     }
 
-    public void renderContents(PoseStack matrices, int mouseX, int mouseY, float delta) {
+    public void renderContents(GuiGraphics guiGraphics, int mouseX, int mouseY, float delta) {
         for (Control child : children) {
             child.updateParentOffsets(this.x, this.y + TOP_HEIGHT);
-            child.render(matrices, mouseX, mouseY, delta);
+            child.render(guiGraphics, mouseX, mouseY, delta);
         }
     }
 

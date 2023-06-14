@@ -25,10 +25,9 @@
 package com.me4502.racquel.ui.control;
 
 import com.me4502.racquel.ui.Widget;
-import net.minecraft.client.gui.GuiComponent;
 import net.minecraft.client.gui.components.events.GuiEventListener;
 
-public abstract class Control extends GuiComponent implements Widget, GuiEventListener {
+public abstract class Control implements Widget, GuiEventListener {
     protected int x;
     protected int y;
     protected int width;

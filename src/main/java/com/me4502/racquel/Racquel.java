@@ -47,6 +47,7 @@ import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
 import net.minecraft.client.KeyMapping;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
+import net.minecraft.client.gui.GuiGraphics;
 import org.lwjgl.glfw.GLFW;
 
 import java.util.ArrayList;
@@ -107,7 +108,11 @@ public class Racquel implements ModInitializer {
 		// Handle Keybind changes.
 		for (Plugin plugin : plugins) {
 			if (plugin.getKeybind().isPresent() && plugin.getKeybind().get().consumeClick()) {
-				plugin.toggle();
+				try {
+					plugin.toggle();
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
 			}
 		}
 		if (consoleKeybind.consumeClick()) {
@@ -129,11 +134,11 @@ public class Racquel implements ModInitializer {
 		lastPacketTime ++;
 	}
 
-	public void onPostRender(PoseStack stack, Gui gui) {
+	public void onPostRender(GuiGraphics guiGraphics, Gui gui) {
 		if (consoleScreen != null && Minecraft.getInstance().screen != consoleScreen) {
 			for (Panel panel : consoleScreen.getPanels()) {
 				if (panel.isPinned()) {
-					panel.render(stack, 0, 0, 0);
+					panel.render(guiGraphics, 0, 0, 0);
 				}
 			}
 		}
