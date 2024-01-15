@@ -1,2 +1,9 @@
-accessWidener v1 named
+accessWidener v2 named
+
 accessible field net/minecraft/client/Timer msPerTick F
+
+accessible field net/minecraft/client/Minecraft timer Lnet/minecraft/client/Timer;
+mutable field net/minecraft/client/Minecraft timer Lnet/minecraft/client/Timer;
+accessible method net/minecraft/client/Minecraft getTickTargetMillis (F)F
+
+accessible field net/minecraft/world/entity/Entity deltaMovement Lnet/minecraft/world/phys/Vec3;

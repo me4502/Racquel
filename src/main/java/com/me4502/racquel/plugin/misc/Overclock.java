@@ -24,7 +24,6 @@
 
 package com.me4502.racquel.plugin.misc;
 
-import com.me4502.racquel.mixin.AccessorMinecraft;
 import com.me4502.racquel.plugin.Plugin;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.Timer;
@@ -40,13 +39,13 @@ public class Overclock extends Plugin {
     @Override
     public void enable() {
         super.enable();
-        ((AccessorMinecraft) Minecraft.getInstance()).setTimer(new Timer(20f * 6.67f, 0));
+        Minecraft.getInstance().timer = new Timer(20f * 6.67f, 0, f -> f);
     }
 
     @Override
     public void disable() {
         super.disable();
-        ((AccessorMinecraft) Minecraft.getInstance()).setTimer(new Timer(20, 0));
+        Minecraft.getInstance().timer = new Timer(20, 0, Minecraft.getInstance()::getTickTargetMillis);
     }
 
     @Override

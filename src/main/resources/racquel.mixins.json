@@ -8,9 +8,7 @@
     "MixinGui",
     "MixinClientConnection",
     "packet.AccessorServerboundMovePlayerPacket",
-    "packet.AccessorServerboundPlayerCommandPacket",
-    "AccessorEntity",
-    "AccessorMinecraft"
+    "packet.AccessorServerboundPlayerCommandPacket"
   ],
   "injectors": {
     "defaultRequire": 1

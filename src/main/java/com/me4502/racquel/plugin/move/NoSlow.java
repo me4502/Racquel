@@ -24,7 +24,6 @@
 
 package com.me4502.racquel.plugin.move;
 
-import com.me4502.racquel.mixin.AccessorEntity;
 import com.me4502.racquel.plugin.Plugin;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.minecraft.client.Minecraft;
@@ -45,7 +44,7 @@ public class NoSlow extends Plugin {
             return;
         }
 
-        ((AccessorEntity) getPlayer()).setDeltaMovement(Vec3.ZERO);
+        getPlayer().deltaMovement = Vec3.ZERO;
     }
 
     @Override
